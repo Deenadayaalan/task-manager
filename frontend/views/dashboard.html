@@ -1,0 +1,102 @@
+<div class="topbar">
+    <div class="topbar-title">Dashboard</div>
+    <div class="topbar-actions">
+        <a href="#!/tasks/new" class="btn btn-primary">+ Create Task</a>
+    </div>
+</div>
+<div class="page-content">
+    <div class="stats-row">
+        <div class="stat-card stat-total">
+            <div class="stat-value">{{$ctrl.stats.total}}</div>
+            <div class="stat-label">Total Tasks</div>
+        </div>
+        <div class="stat-card stat-todo">
+            <div class="stat-value">{{$ctrl.stats.todo}}</div>
+            <div class="stat-label">To Do</div>
+        </div>
+        <div class="stat-card stat-progress">
+            <div class="stat-value">{{$ctrl.stats.inProgress}}</div>
+            <div class="stat-label">In Progress</div>
+        </div>
+        <div class="stat-card stat-done">
+            <div class="stat-value">{{$ctrl.stats.done}}</div>
+            <div class="stat-label">Done</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">Recent Activity</div>
+            <a href="#!/tasks" class="btn btn-subtle btn-sm">View All</a>
+        </div>
+        <div class="empty-state" ng-if="$ctrl.recentTasks.length === 0">
+            <div class="empty-state-icon">&#128203;</div>
+            <div class="empty-state-text">No tasks yet</div>
+            <a href="#!/tasks/new" class="btn btn-primary">Create your first task</a>
+        </div>
+        <table class="task-table" ng-if="$ctrl.recentTasks.length > 0">
+            <thead>
+                <tr><th>Key</th><th>Summary</th><th>Status</th><th>Priority</th><th>Assignee</th></tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="task in $ctrl.recentTasks">
+                    <td class="task-key">TF-{{task.id}}</td>
+                    <td><a class="task-link" href="#!/tasks/{{task.id}}">{{task.title}}</a></td>
+                    <td><span class="badge badge-{{task.status | lowercase}}">{{task.status | taskStatusLabel}}</span></td>
+                    <td><span class="priority-icon priority-{{task.priority | lowercase}}">{{task.priority}}</span></td>
+                    <td>
+                        <span class="avatar" ng-if="task.assignee" title="{{task.assignee}}">{{$ctrl.getInitials(task.assignee)}}</span>
+                        <span ng-if="!task.assignee" style="color:var(--color-text-subtle)">Unassigned</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card" style="margin-top:8px;">
+        <div class="card-header">
+            <div class="card-title">Technology Stack</div>
+        </div>
+        <div class="tech-stack">
+            <div class="tech-tier">
+                <div class="tech-tier-label">Frontend</div>
+                <div class="tech-chips">
+                    <span class="tech-chip"><span class="tech-chip-dot" style="background:#dd1b16"></span>AngularJS 1.8</span>
+                    <span class="tech-chip"><span class="tech-chip-dot" style="background:#3178c6"></span>TypeScript</span>
+                    <span class="tech-chip"><span class="tech-chip-dot" style="background:#8dd6f9"></span>Webpack</span>
+                    <span class="tech-chip"><span class="tech-chip-dot" style="background:#009639"></span>Nginx</span>
+                </div>
+            </div>
+            <div class="tech-tier">
+                <div class="tech-tier-label">Backend</div>
+                <div class="tech-chips">
+                    <span class="tech-chip"><span class="tech-chip-dot" style="background:#f89820"></span>Java 8</span>
+                    <span class="tech-chip"><span class="tech-chip-dot" style="background:#6db33f"></span>Spring Boot 2.7</span>
+                    <span class="tech-chip"><span class="tech-chip-dot" style="background:#6db33f"></span>Spring Data JPA</span>
+                    <span class="tech-chip"><span class="tech-chip-dot" style="background:#0053a1"></span>H2 Database</span>
+                </div>
+            </div>
+            <div class="tech-tier">
+                <div class="tech-tier-label">Infrastructure</div>
+                <div class="tech-chips">
+                    <span class="tech-chip"><span class="tech-chip-dot" style="background:#2496ed"></span>Docker</span>
+                    <span class="tech-chip"><span class="tech-chip-dot" style="background:#ff9900"></span>ECS Fargate</span>
+                    <span class="tech-chip"><span class="tech-chip-dot" style="background:#ff9900"></span>CloudFront</span>
+                    <span class="tech-chip"><span class="tech-chip-dot" style="background:#ff9900"></span>ALB</span>
+                    <span class="tech-chip"><span class="tech-chip-dot" style="background:#7b42bc"></span>Terraform</span>
+                </div>
+            </div>
+            <div class="tech-tier">
+                <div class="tech-tier-label">API Endpoints</div>
+                <div class="tech-endpoints">
+                    <code>GET&nbsp;&nbsp;&nbsp; /api/tasks</code>
+                    <code>GET&nbsp;&nbsp;&nbsp; /api/tasks/:id</code>
+                    <code>POST&nbsp;&nbsp; /api/tasks</code>
+                    <code>PUT&nbsp;&nbsp;&nbsp; /api/tasks/:id</code>
+                    <code>PATCH&nbsp; /api/tasks/:id/status</code>
+                    <code>DELETE /api/tasks/:id</code>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

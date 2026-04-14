@@ -1,0 +1,60 @@
+<div class="topbar">
+    <div class="topbar-title">Backlog</div>
+    <div class="topbar-actions">
+        <a href="#!/tasks/new" class="btn btn-primary">+ Create Task</a>
+    </div>
+</div>
+<div class="page-content">
+    <div class="filters-bar">
+        <span class="filter-label">Filter:</span>
+        <select class="filter-select" ng-model="$ctrl.filter.status" ng-change="$ctrl.applyFilter()" aria-label="Filter by status">
+            <option value="">All Statuses</option>
+            <option value="TODO">To Do</option>
+            <option value="IN_PROGRESS">In Progress</option>
+            <option value="DONE">Done</option>
+        </select>
+        <select class="filter-select" ng-model="$ctrl.filter.priority" ng-change="$ctrl.applyFilter()" aria-label="Filter by priority">
+            <option value="">All Priorities</option>
+            <option value="HIGH">High</option>
+            <option value="MEDIUM">Medium</option>
+            <option value="LOW">Low</option>
+        </select>
+    </div>
+
+    <div class="card" style="padding:0; overflow:hidden;">
+        <div class="empty-state" ng-if="$ctrl.tasks.length === 0">
+            <div class="empty-state-icon">&#128270;</div>
+            <div class="empty-state-text">No tasks match your filters</div>
+        </div>
+        <table class="task-table" ng-if="$ctrl.tasks.length > 0">
+            <thead>
+                <tr>
+                    <th>Key</th>
+                    <th>Summary</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                    <th>Assignee</th>
+                    <th>Due Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="task in $ctrl.tasks">
+                    <td class="task-key">TF-{{task.id}}</td>
+                    <td><a class="task-link" href="#!/tasks/{{task.id}}">{{task.title}}</a></td>
+                    <td><span class="badge badge-{{task.status | lowercase}}">{{task.status | taskStatusLabel}}</span></td>
+                    <td><span class="priority-icon priority-{{task.priority | lowercase}}">{{task.priority}}</span></td>
+                    <td>
+                        <span class="avatar" ng-if="task.assignee" title="{{task.assignee}}">{{$ctrl.getInitials(task.assignee)}}</span>
+                        <span ng-if="!task.assignee" style="color:var(--color-text-subtle)">—</span>
+                    </td>
+                    <td style="color:var(--color-text-subtle)">{{task.dueDate ? (task.dueDate | date:'mediumDate') : '—'}}</td>
+                    <td>
+                        <a href="#!/tasks/{{task.id}}/edit" class="btn btn-subtle btn-sm">Edit</a>
+                        <button class="btn btn-danger btn-sm" ng-click="$ctrl.deleteTask(task.id)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

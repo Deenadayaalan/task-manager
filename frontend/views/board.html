@@ -1,0 +1,60 @@
+<div class="topbar">
+    <div class="topbar-title">Board</div>
+    <div class="topbar-actions">
+        <a href="#!/tasks/new" class="btn btn-primary">+ Create Task</a>
+    </div>
+</div>
+<div class="page-content">
+    <div class="board">
+        <!-- TO DO Column -->
+        <div class="board-column">
+            <div class="board-column-header">
+                <span>To Do</span>
+                <span class="board-column-count">{{$ctrl.todoTasks.length}}</span>
+            </div>
+            <div class="board-card" ng-repeat="task in $ctrl.todoTasks" ng-click="$ctrl.openTask(task.id)">
+                <a class="board-card-title" href="#!/tasks/{{task.id}}">{{task.title}}</a>
+                <div class="board-card-footer">
+                    <div class="board-card-meta">
+                        <span class="badge badge-{{task.priority | lowercase}}">{{task.priority}}</span>
+                    </div>
+                    <span class="avatar" ng-if="task.assignee" title="{{task.assignee}}">{{$ctrl.getInitials(task.assignee)}}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- IN PROGRESS Column -->
+        <div class="board-column">
+            <div class="board-column-header">
+                <span>In Progress</span>
+                <span class="board-column-count">{{$ctrl.inProgressTasks.length}}</span>
+            </div>
+            <div class="board-card" ng-repeat="task in $ctrl.inProgressTasks" ng-click="$ctrl.openTask(task.id)">
+                <a class="board-card-title" href="#!/tasks/{{task.id}}">{{task.title}}</a>
+                <div class="board-card-footer">
+                    <div class="board-card-meta">
+                        <span class="badge badge-{{task.priority | lowercase}}">{{task.priority}}</span>
+                    </div>
+                    <span class="avatar" ng-if="task.assignee" title="{{task.assignee}}">{{$ctrl.getInitials(task.assignee)}}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- DONE Column -->
+        <div class="board-column">
+            <div class="board-column-header">
+                <span>Done</span>
+                <span class="board-column-count">{{$ctrl.doneTasks.length}}</span>
+            </div>
+            <div class="board-card" ng-repeat="task in $ctrl.doneTasks" ng-click="$ctrl.openTask(task.id)">
+                <a class="board-card-title" href="#!/tasks/{{task.id}}">{{task.title}}</a>
+                <div class="board-card-footer">
+                    <div class="board-card-meta">
+                        <span class="badge badge-{{task.priority | lowercase}}">{{task.priority}}</span>
+                    </div>
+                    <span class="avatar" ng-if="task.assignee" title="{{task.assignee}}">{{$ctrl.getInitials(task.assignee)}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
