@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html ng-app="taskManagerApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow — Project Management</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="app-layout">
+        <aside class="sidebar" role="navigation" aria-label="Main navigation">
+            <div class="sidebar-brand">
+                <div class="sidebar-brand-icon">T</div>
+                <div class="sidebar-brand-text">TaskFlow</div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#!/" role="menuitem">
+                    <span class="sidebar-nav-icon">&#9633;</span> Dashboard
+                </a>
+                <a href="#!/board" role="menuitem">
+                    <span class="sidebar-nav-icon">&#9638;</span> Board
+                </a>
+                <a href="#!/tasks" role="menuitem">
+                    <span class="sidebar-nav-icon">&#9776;</span> Backlog
+                </a>
+                <a href="#!/tasks/new" role="menuitem">
+                    <span class="sidebar-nav-icon">&#43;</span> Create Task
+                </a>
+            </nav>
+        </aside>
+        <div class="main-content">
+            <div ng-view></div>
+        </div>
+    </div>
+    <script src="dist/bundle.js"></script>
+</body>
+</html>

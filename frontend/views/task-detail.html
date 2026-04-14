@@ -1,0 +1,78 @@
+<div class="topbar">
+    <div class="topbar-title">TF-{{$ctrl.task.id}}</div>
+    <div class="topbar-actions" ng-if="$ctrl.task">
+        <a href="#!/tasks/{{$ctrl.task.id}}/edit" class="btn btn-subtle">Edit</a>
+        <button class="btn btn-danger" ng-click="$ctrl.deleteTask()">Delete</button>
+    </div>
+</div>
+<div class="page-content">
+    <div class="alert alert-error" ng-if="$ctrl.error">{{$ctrl.error}}</div>
+
+    <div ng-if="$ctrl.task">
+        <div class="detail-header">
+            <div class="detail-key">TF-{{$ctrl.task.id}}</div>
+            <div class="detail-title">{{$ctrl.task.title}}</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+            <!-- Left: Description -->
+            <div>
+                <div class="card">
+                    <div class="detail-section">
+                        <div class="detail-section-title">Description</div>
+                        <div class="detail-description" ng-if="$ctrl.task.description">{{$ctrl.task.description}}</div>
+                        <div style="color:var(--color-text-subtle); font-style:italic;" ng-if="!$ctrl.task.description">No description provided.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Details sidebar -->
+            <div>
+                <div class="card">
+                    <div class="detail-section">
+                        <div class="detail-section-title">Status</div>
+                        <div class="status-buttons">
+                            <button class="status-btn" ng-class="{'active': $ctrl.task.status === 'TODO'}" ng-click="$ctrl.setStatus('TODO')">To Do</button>
+                            <button class="status-btn" ng-class="{'active': $ctrl.task.status === 'IN_PROGRESS'}" ng-click="$ctrl.setStatus('IN_PROGRESS')">In Progress</button>
+                            <button class="status-btn" ng-class="{'active': $ctrl.task.status === 'DONE'}" ng-click="$ctrl.setStatus('DONE')">Done</button>
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-field">
+                            <label>Priority</label>
+                            <p><span class="priority-icon priority-{{$ctrl.task.priority | lowercase}}">{{$ctrl.task.priority}}</span></p>
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-field">
+                            <label>Assignee</label>
+                            <p>
+                                <span class="avatar" ng-if="$ctrl.task.assignee" style="margin-right:6px;">{{$ctrl.getInitials($ctrl.task.assignee)}}</span>
+                                {{$ctrl.task.assignee || 'Unassigned'}}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-field">
+                            <label>Due Date</label>
+                            <p>{{$ctrl.task.dueDate ? ($ctrl.task.dueDate | date:'mediumDate') : 'No due date'}}</p>
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-field">
+                            <label>Created</label>
+                            <p>{{$ctrl.task.createdAt | date:'medium'}}</p>
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-field">
+                            <label>Updated</label>
+                            <p>{{$ctrl.task.updatedAt | date:'medium'}}</p>
+                        </div>
+                    </div>
+                </div>
+                <a href="#!/board" class="btn btn-subtle" style="margin-top:8px;">&#8592; Back to Board</a>
+            </div>
+        </div>
+    </div>
+</div>
