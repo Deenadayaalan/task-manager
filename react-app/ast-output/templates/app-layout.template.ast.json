@@ -1,0 +1,83 @@
+{
+  "fileName": "index.html",
+  "rootElements": [
+    {
+      "tagName": "div",
+      "attributes": { "class": "app-layout" },
+      "children": [
+        {
+          "tagName": "aside",
+          "attributes": { "class": "sidebar", "role": "navigation", "aria-label": "Main navigation" },
+          "children": [
+            {
+              "tagName": "div",
+              "attributes": { "class": "sidebar-brand" },
+              "children": [
+                { "tagName": "div", "attributes": { "class": "sidebar-brand-icon" }, "textContent": "T" },
+                { "tagName": "div", "attributes": { "class": "sidebar-brand-text" }, "textContent": "TaskFlow" }
+              ]
+            },
+            {
+              "tagName": "nav",
+              "attributes": { "class": "sidebar-nav" },
+              "children": [
+                {
+                  "tagName": "a",
+                  "attributes": { "href": "#!/", "role": "menuitem" },
+                  "children": [
+                    { "tagName": "span", "attributes": { "class": "sidebar-nav-icon" }, "textContent": "□" }
+                  ],
+                  "textContent": " Dashboard"
+                },
+                {
+                  "tagName": "a",
+                  "attributes": { "href": "#!/board", "role": "menuitem" },
+                  "children": [
+                    { "tagName": "span", "attributes": { "class": "sidebar-nav-icon" }, "textContent": "▦" }
+                  ],
+                  "textContent": " Board"
+                },
+                {
+                  "tagName": "a",
+                  "attributes": { "href": "#!/tasks", "role": "menuitem" },
+                  "children": [
+                    { "tagName": "span", "attributes": { "class": "sidebar-nav-icon" }, "textContent": "☰" }
+                  ],
+                  "textContent": " Backlog"
+                },
+                {
+                  "tagName": "a",
+                  "attributes": { "href": "#!/tasks/new", "role": "menuitem" },
+                  "children": [
+                    { "tagName": "span", "attributes": { "class": "sidebar-nav-icon" }, "textContent": "+" }
+                  ],
+                  "textContent": " Create Task"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "tagName": "div",
+          "attributes": { "class": "main-content" },
+          "children": [
+            {
+              "tagName": "div",
+              "directives": { "ngView": true },
+              "description": "Angular ng-view directive renders route template content here"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "interpolations": [],
+  "templateRefs": [],
+  "htmlMeta": {
+    "title": "TaskFlow — Project Management",
+    "charset": "UTF-8",
+    "viewport": "width=device-width, initial-scale=1.0",
+    "stylesheets": ["css/styles.css"],
+    "scripts": ["dist/bundle.js"]
+  }
+}
