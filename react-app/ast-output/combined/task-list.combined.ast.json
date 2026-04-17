@@ -1,0 +1,31 @@
+{
+  "componentName": "TaskListController",
+  "component": { "$ref": "../components/task-list.component.ast.json" },
+  "template": { "$ref": "../templates/task-list.template.ast.json" },
+  "styles": { "$ref": "../styles/global.styles.ast.json" },
+  "bindings": {
+    "propertyToTemplate": [
+      { "property": "tasks", "templateUsage": ["ngRepeat", "tr in tbody"], "condition": ["ngIf", "tasks.length > 0"] },
+      { "property": "filter.status", "templateUsage": ["ngModel", "select.filter-select (status)"] },
+      { "property": "filter.priority", "templateUsage": ["ngModel", "select.filter-select (priority)"] }
+    ],
+    "methodToTemplate": [
+      { "method": "applyFilter", "templateUsage": ["ngChange", "select.filter-select"] },
+      { "method": "deleteTask", "templateUsage": ["ngClick", "button.btn-danger"] },
+      { "method": "getInitials", "templateUsage": ["interpolation", "span.avatar"] }
+    ],
+    "classToStyle": [
+      { "class": "topbar", "styleRules": [".topbar", ".topbar-title", ".topbar-actions"] },
+      { "class": "filters-bar", "styleRules": [".filters-bar", ".filter-label", ".filter-select"] },
+      { "class": "card", "styleRules": [".card"] },
+      { "class": "task-table", "styleRules": [".task-table", ".task-table th", ".task-table td", ".task-key", ".task-link"] },
+      { "class": "empty-state", "styleRules": [".empty-state", ".empty-state-icon", ".empty-state-text"] },
+      { "class": "badge", "styleRules": [".badge", ".badge-todo", ".badge-in_progress", ".badge-done"] },
+      { "class": "priority-icon", "styleRules": [".priority-icon"] },
+      { "class": "avatar", "styleRules": [".avatar"] },
+      { "class": "btn", "styleRules": [".btn", ".btn-primary", ".btn-subtle", ".btn-danger", ".btn-sm"] }
+    ]
+  },
+  "dependencies": ["TaskService"],
+  "childComponents": []
+}
