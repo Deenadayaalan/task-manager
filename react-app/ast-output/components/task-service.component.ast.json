@@ -1,0 +1,62 @@
+{
+  "fileName": "task.service.ts",
+  "componentName": "TaskService",
+  "selector": "TaskService",
+  "inputs": [],
+  "outputs": [],
+  "dependencies": [
+    { "name": "$http", "type": "angular.IHttpService", "injectionToken": "$http" }
+  ],
+  "lifecycleHooks": [],
+  "methods": [
+    {
+      "name": "getAll",
+      "parameters": [{ "name": "params", "type": "Record<string, string> | undefined" }],
+      "returnType": "angular.IPromise<Task[]>",
+      "isPublic": true
+    },
+    {
+      "name": "getById",
+      "parameters": [{ "name": "id", "type": "number" }],
+      "returnType": "angular.IPromise<Task>",
+      "isPublic": true
+    },
+    {
+      "name": "create",
+      "parameters": [{ "name": "task", "type": "TaskRequest" }],
+      "returnType": "angular.IPromise<Task>",
+      "isPublic": true
+    },
+    {
+      "name": "update",
+      "parameters": [
+        { "name": "id", "type": "number" },
+        { "name": "task", "type": "TaskRequest" }
+      ],
+      "returnType": "angular.IPromise<Task>",
+      "isPublic": true
+    },
+    {
+      "name": "updateStatus",
+      "parameters": [
+        { "name": "id", "type": "number" },
+        { "name": "status", "type": "string" }
+      ],
+      "returnType": "angular.IPromise<Task>",
+      "isPublic": true
+    },
+    {
+      "name": "remove",
+      "parameters": [{ "name": "id", "type": "number" }],
+      "returnType": "angular.IPromise<void>",
+      "isPublic": true
+    }
+  ],
+  "properties": [],
+  "constants": [
+    { "name": "API_BASE", "value": "/api/tasks", "type": "string" }
+  ],
+  "constructorLogic": "Stores $http service for making HTTP requests.",
+  "imports": ["angular", "Task", "TaskRequest"],
+  "$inject": ["$http"]
+}
