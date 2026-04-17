@@ -1,0 +1,133 @@
+{
+  "fileName": "task-form.html",
+  "rootElements": [
+    {
+      "tagName": "div",
+      "attributes": { "class": "topbar" },
+      "children": [
+        {
+          "tagName": "div",
+          "attributes": { "class": "topbar-title" },
+          "interpolation": "{{$ctrl.isEdit ? 'Edit Task' : 'Create Task'}}"
+        }
+      ]
+    },
+    {
+      "tagName": "div",
+      "attributes": { "class": "page-content" },
+      "children": [
+        {
+          "tagName": "div",
+          "attributes": { "class": "alert alert-error" },
+          "directives": { "ngIf": "$ctrl.error" },
+          "interpolation": "{{$ctrl.error}}"
+        },
+        {
+          "tagName": "div",
+          "attributes": { "class": "card" },
+          "children": [
+            {
+              "tagName": "form",
+              "attributes": { "novalidate": true, "role": "form", "aria-label": "Task form" },
+              "bindings": { "event": [{ "name": "ng-submit", "handler": "$ctrl.saveTask()" }] },
+              "children": [
+                {
+                  "tagName": "div",
+                  "attributes": { "class": "form-group" },
+                  "children": [
+                    { "tagName": "label", "attributes": { "for": "title" }, "textContent": "Summary *" },
+                    { "tagName": "input", "attributes": { "id": "title", "type": "text", "class": "form-control", "required": true, "placeholder": "What needs to be done?" }, "bindings": { "property": [{ "name": "ng-model", "expression": "$ctrl.task.title" }] } }
+                  ]
+                },
+                {
+                  "tagName": "div",
+                  "attributes": { "class": "form-group" },
+                  "children": [
+                    { "tagName": "label", "attributes": { "for": "description" }, "textContent": "Description" },
+                    { "tagName": "textarea", "attributes": { "id": "description", "class": "form-control", "placeholder": "Add a description..." }, "bindings": { "property": [{ "name": "ng-model", "expression": "$ctrl.task.description" }] } }
+                  ]
+                },
+                {
+                  "tagName": "div",
+                  "attributes": { "class": "form-row" },
+                  "children": [
+                    {
+                      "tagName": "div",
+                      "attributes": { "class": "form-group" },
+                      "children": [
+                        { "tagName": "label", "attributes": { "for": "status" }, "textContent": "Status" },
+                        {
+                          "tagName": "select",
+                          "attributes": { "id": "status", "class": "form-control" },
+                          "bindings": { "property": [{ "name": "ng-model", "expression": "$ctrl.task.status" }] },
+                          "options": [
+                            { "value": "TODO", "text": "To Do" },
+                            { "value": "IN_PROGRESS", "text": "In Progress" },
+                            { "value": "DONE", "text": "Done" }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "tagName": "div",
+                      "attributes": { "class": "form-group" },
+                      "children": [
+                        { "tagName": "label", "attributes": { "for": "priority" }, "textContent": "Priority" },
+                        {
+                          "tagName": "select",
+                          "attributes": { "id": "priority", "class": "form-control" },
+                          "bindings": { "property": [{ "name": "ng-model", "expression": "$ctrl.task.priority" }] },
+                          "options": [
+                            { "value": "HIGH", "text": "High" },
+                            { "value": "MEDIUM", "text": "Medium" },
+                            { "value": "LOW", "text": "Low" }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "tagName": "div",
+                  "attributes": { "class": "form-row" },
+                  "children": [
+                    {
+                      "tagName": "div",
+                      "attributes": { "class": "form-group" },
+                      "children": [
+                        { "tagName": "label", "attributes": { "for": "assignee" }, "textContent": "Assignee" },
+                        { "tagName": "input", "attributes": { "id": "assignee", "type": "text", "class": "form-control", "placeholder": "Assign to..." }, "bindings": { "property": [{ "name": "ng-model", "expression": "$ctrl.task.assignee" }] } }
+                      ]
+                    },
+                    {
+                      "tagName": "div",
+                      "attributes": { "class": "form-group" },
+                      "children": [
+                        { "tagName": "label", "attributes": { "for": "dueDate" }, "textContent": "Due Date" },
+                        { "tagName": "input", "attributes": { "id": "dueDate", "type": "date", "class": "form-control" }, "bindings": { "property": [{ "name": "ng-model", "expression": "$ctrl.task.dueDate" }] } }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "tagName": "div",
+                  "attributes": { "class": "form-actions" },
+                  "children": [
+                    { "tagName": "button", "attributes": { "type": "submit", "class": "btn btn-primary" }, "interpolation": "{{$ctrl.isEdit ? 'Save Changes' : 'Create Task'}}" },
+                    { "tagName": "a", "attributes": { "href": "#!/tasks", "class": "btn btn-subtle" }, "textContent": "Cancel" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "interpolations": [
+    { "expression": "$ctrl.isEdit ? 'Edit Task' : 'Create Task'", "location": "div.topbar-title" },
+    { "expression": "$ctrl.error", "location": "div.alert.alert-error" },
+    { "expression": "$ctrl.isEdit ? 'Save Changes' : 'Create Task'", "location": "button[type=submit]" }
+  ],
+  "templateRefs": []
+}
