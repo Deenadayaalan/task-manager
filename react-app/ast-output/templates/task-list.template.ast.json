@@ -1,0 +1,85 @@
+{
+  "fileName": "task-list.html",
+  "rootElements": [
+    {
+      "tagName": "div",
+      "attributes": { "class": "topbar" },
+      "children": [
+        { "tagName": "div", "attributes": { "class": "topbar-title" }, "textContent": "Backlog" },
+        {
+          "tagName": "div",
+          "attributes": { "class": "topbar-actions" },
+          "children": [
+            { "tagName": "a", "attributes": { "href": "#!/tasks/new", "class": "btn btn-primary" }, "textContent": "+ Create Task" }
+          ]
+        }
+      ]
+    },
+    {
+      "tagName": "div",
+      "attributes": { "class": "page-content" },
+      "children": [
+        {
+          "tagName": "div",
+          "attributes": { "class": "filters-bar" },
+          "children": [
+            { "tagName": "span", "attributes": { "class": "filter-label" }, "textContent": "Filter:" },
+            {
+              "tagName": "select",
+              "attributes": { "class": "filter-select", "aria-label": "Filter by status" },
+              "bindings": { "property": [{ "name": "ng-model", "expression": "$ctrl.filter.status" }], "event": [{ "name": "ng-change", "handler": "$ctrl.applyFilter()" }] },
+              "children": [
+                { "tagName": "option", "attributes": { "value": "" }, "textContent": "All Statuses" },
+                { "tagName": "option", "attributes": { "value": "TODO" }, "textContent": "To Do" },
+                { "tagName": "option", "attributes": { "value": "IN_PROGRESS" }, "textContent": "In Progress" },
+                { "tagName": "option", "attributes": { "value": "DONE" }, "textContent": "Done" }
+              ]
+            },
+            {
+              "tagName": "select",
+              "attributes": { "class": "filter-select", "aria-label": "Filter by priority" },
+              "bindings": { "property": [{ "name": "ng-model", "expression": "$ctrl.filter.priority" }], "event": [{ "name": "ng-change", "handler": "$ctrl.applyFilter()" }] },
+              "children": [
+                { "tagName": "option", "attributes": { "value": "" }, "textContent": "All Priorities" },
+                { "tagName": "option", "attributes": { "value": "HIGH" }, "textContent": "High" },
+                { "tagName": "option", "attributes": { "value": "MEDIUM" }, "textContent": "Medium" },
+                { "tagName": "option", "attributes": { "value": "LOW" }, "textContent": "Low" }
+              ]
+            }
+          ]
+        },
+        {
+          "tagName": "div",
+          "attributes": { "class": "card" },
+          "style": "padding:0; overflow:hidden;",
+          "children": [
+            {
+              "tagName": "div",
+              "attributes": { "class": "empty-state" },
+              "directives": { "ngIf": "$ctrl.tasks.length === 0" },
+              "children": [
+                { "tagName": "div", "attributes": { "class": "empty-state-icon" }, "textContent": "🔎" },
+                { "tagName": "div", "attributes": { "class": "empty-state-text" }, "textContent": "No tasks match your filters" }
+              ]
+            },
+            {
+              "tagName": "table",
+              "attributes": { "class": "task-table" },
+              "directives": { "ngIf": "$ctrl.tasks.length > 0" },
+              "description": "Table with columns: Key, Summary, Status, Priority, Assignee, Due Date, Actions. Each row has ng-repeat='task in $ctrl.tasks'."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "interpolations": [
+    { "expression": "task.id", "location": "td.task-key (TF-prefix)" },
+    { "expression": "task.title", "location": "a.task-link" },
+    { "expression": "task.status | taskStatusLabel", "location": "span.badge" },
+    { "expression": "task.priority", "location": "span.priority-icon" },
+    { "expression": "$ctrl.getInitials(task.assignee)", "location": "span.avatar" },
+    { "expression": "task.dueDate | date:'mediumDate'", "location": "td (due date column)" }
+  ],
+  "templateRefs": []
+}
