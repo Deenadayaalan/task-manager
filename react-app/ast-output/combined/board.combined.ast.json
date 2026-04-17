@@ -1,0 +1,28 @@
+{
+  "componentName": "BoardController",
+  "component": { "$ref": "../components/board.component.ast.json" },
+  "template": { "$ref": "../templates/board.template.ast.json" },
+  "styles": { "$ref": "../styles/global.styles.ast.json" },
+  "bindings": {
+    "propertyToTemplate": [
+      { "property": "todoTasks", "templateUsage": ["ngRepeat", "div.board-card in To Do column"] },
+      { "property": "inProgressTasks", "templateUsage": ["ngRepeat", "div.board-card in In Progress column"] },
+      { "property": "doneTasks", "templateUsage": ["ngRepeat", "div.board-card in Done column"] }
+    ],
+    "methodToTemplate": [
+      { "method": "openTask", "templateUsage": ["ngClick", "div.board-card"] },
+      { "method": "getInitials", "templateUsage": ["interpolation", "span.avatar"] }
+    ],
+    "classToStyle": [
+      { "class": "topbar", "styleRules": [".topbar", ".topbar-title", ".topbar-actions"] },
+      { "class": "board", "styleRules": [".board"] },
+      { "class": "board-column", "styleRules": [".board-column", ".board-column-header", ".board-column-count"] },
+      { "class": "board-card", "styleRules": [".board-card", ".board-card:hover", ".board-card-title", ".board-card-title:hover", ".board-card-footer", ".board-card-meta"] },
+      { "class": "badge", "styleRules": [".badge", ".badge-high", ".badge-medium", ".badge-low"] },
+      { "class": "avatar", "styleRules": [".avatar"] },
+      { "class": "btn", "styleRules": [".btn", ".btn-primary"] }
+    ]
+  },
+  "dependencies": ["TaskService", "$location"],
+  "childComponents": []
+}
