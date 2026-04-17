@@ -1,0 +1,29 @@
+{
+  "componentName": "AppLayout",
+  "component": null,
+  "template": { "$ref": "../templates/app-layout.template.ast.json" },
+  "styles": { "$ref": "../styles/global.styles.ast.json" },
+  "bindings": {
+    "propertyToTemplate": [],
+    "methodToTemplate": [],
+    "classToStyle": [
+      { "class": "app-layout", "styleRules": [".app-layout"] },
+      { "class": "sidebar", "styleRules": [".sidebar", ".sidebar-brand", ".sidebar-brand-icon", ".sidebar-brand-text", ".sidebar-nav", ".sidebar-nav a", ".sidebar-nav a:hover", ".sidebar-nav a.active", ".sidebar-nav-icon"] },
+      { "class": "main-content", "styleRules": [".main-content"] }
+    ]
+  },
+  "dependencies": [],
+  "childComponents": ["DashboardController", "BoardController", "TaskListController", "TaskFormController", "TaskDetailController"],
+  "routing": {
+    "provider": "$routeProvider",
+    "routes": [
+      { "path": "/", "controller": "DashboardController", "template": "views/dashboard.html" },
+      { "path": "/board", "controller": "BoardController", "template": "views/board.html" },
+      { "path": "/tasks", "controller": "TaskListController", "template": "views/task-list.html" },
+      { "path": "/tasks/new", "controller": "TaskFormController", "template": "views/task-form.html" },
+      { "path": "/tasks/:id", "controller": "TaskDetailController", "template": "views/task-detail.html" },
+      { "path": "/tasks/:id/edit", "controller": "TaskFormController", "template": "views/task-form.html" }
+    ],
+    "otherwise": { "redirectTo": "/" }
+  }
+}
