@@ -1,0 +1,33 @@
+{
+  "componentName": "TaskFormController",
+  "component": { "$ref": "../components/task-form.component.ast.json" },
+  "template": { "$ref": "../templates/task-form.template.ast.json" },
+  "styles": { "$ref": "../styles/global.styles.ast.json" },
+  "bindings": {
+    "propertyToTemplate": [
+      { "property": "isEdit", "templateUsage": ["interpolation", "topbar-title (ternary)", "button text (ternary)"] },
+      { "property": "error", "templateUsage": ["ngIf", "div.alert.alert-error"] },
+      { "property": "task.title", "templateUsage": ["ngModel", "input#title"] },
+      { "property": "task.description", "templateUsage": ["ngModel", "textarea#description"] },
+      { "property": "task.status", "templateUsage": ["ngModel", "select#status"] },
+      { "property": "task.priority", "templateUsage": ["ngModel", "select#priority"] },
+      { "property": "task.assignee", "templateUsage": ["ngModel", "input#assignee"] },
+      { "property": "task.dueDate", "templateUsage": ["ngModel", "input#dueDate"] }
+    ],
+    "methodToTemplate": [
+      { "method": "saveTask", "templateUsage": ["ngSubmit", "form"] }
+    ],
+    "classToStyle": [
+      { "class": "topbar", "styleRules": [".topbar", ".topbar-title"] },
+      { "class": "alert", "styleRules": [".alert", ".alert-error"] },
+      { "class": "card", "styleRules": [".card"] },
+      { "class": "form-group", "styleRules": [".form-group", ".form-group label"] },
+      { "class": "form-control", "styleRules": [".form-control", ".form-control:focus", "textarea.form-control"] },
+      { "class": "form-row", "styleRules": [".form-row"] },
+      { "class": "form-actions", "styleRules": [".form-actions"] },
+      { "class": "btn", "styleRules": [".btn", ".btn-primary", ".btn-subtle"] }
+    ]
+  },
+  "dependencies": ["TaskService", "$routeParams", "$location"],
+  "childComponents": []
+}
