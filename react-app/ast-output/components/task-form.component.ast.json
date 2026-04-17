@@ -1,0 +1,36 @@
+{
+  "fileName": "task-form.controller.ts",
+  "componentName": "TaskFormController",
+  "selector": "TaskFormController",
+  "inputs": [],
+  "outputs": [],
+  "dependencies": [
+    { "name": "$routeParams", "type": "angular.route.IRouteParamsService", "injectionToken": "$routeParams" },
+    { "name": "$location", "type": "angular.ILocationService", "injectionToken": "$location" },
+    { "name": "taskService", "type": "TaskService", "injectionToken": "TaskService" }
+  ],
+  "lifecycleHooks": ["constructor"],
+  "methods": [
+    {
+      "name": "loadTask",
+      "parameters": [{ "name": "id", "type": "number" }],
+      "returnType": "void",
+      "isPublic": false
+    },
+    {
+      "name": "saveTask",
+      "parameters": [],
+      "returnType": "void",
+      "isPublic": true
+    }
+  ],
+  "properties": [
+    { "name": "isEdit", "type": "boolean", "defaultValue": "!!$routeParams['id']", "isPublic": true },
+    { "name": "task", "type": "TaskRequest", "defaultValue": "{ title: '', status: 'TODO', priority: 'MEDIUM' }", "isPublic": true },
+    { "name": "success", "type": "string", "defaultValue": "''", "isPublic": true },
+    { "name": "error", "type": "string", "defaultValue": "''", "isPublic": true }
+  ],
+  "constructorLogic": "Sets isEdit from $routeParams. If isEdit, calls loadTask(id) which fetches task via TaskService.getById(id) and populates form fields. saveTask validates title (required), builds payload, calls create or update, redirects to /tasks on success, shows error on failure.",
+  "imports": ["angular", "TaskRequest", "TaskService"],
+  "$inject": ["$routeParams", "$location", "TaskService"]
+}

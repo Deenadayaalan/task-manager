@@ -1,0 +1,49 @@
+{
+  "fileName": "board.controller.ts",
+  "componentName": "BoardController",
+  "selector": "BoardController",
+  "inputs": [],
+  "outputs": [],
+  "dependencies": [
+    { "name": "$location", "type": "angular.ILocationService", "injectionToken": "$location" },
+    { "name": "taskService", "type": "TaskService", "injectionToken": "TaskService" }
+  ],
+  "lifecycleHooks": ["constructor"],
+  "methods": [
+    {
+      "name": "loadBoard",
+      "parameters": [],
+      "returnType": "void",
+      "isPublic": false
+    },
+    {
+      "name": "moveTask",
+      "parameters": [
+        { "name": "taskId", "type": "number" },
+        { "name": "newStatus", "type": "string" }
+      ],
+      "returnType": "void",
+      "isPublic": true
+    },
+    {
+      "name": "getInitials",
+      "parameters": [{ "name": "name", "type": "string | null" }],
+      "returnType": "string",
+      "isPublic": true
+    },
+    {
+      "name": "openTask",
+      "parameters": [{ "name": "id", "type": "number" }],
+      "returnType": "void",
+      "isPublic": true
+    }
+  ],
+  "properties": [
+    { "name": "todoTasks", "type": "Task[]", "defaultValue": "[]", "isPublic": true },
+    { "name": "inProgressTasks", "type": "Task[]", "defaultValue": "[]", "isPublic": true },
+    { "name": "doneTasks", "type": "Task[]", "defaultValue": "[]", "isPublic": true }
+  ],
+  "constructorLogic": "Calls this.loadBoard() which fetches all tasks via TaskService.getAll() and groups them by status into todoTasks, inProgressTasks, doneTasks.",
+  "imports": ["Task", "TaskService"],
+  "$inject": ["$location", "TaskService"]
+}

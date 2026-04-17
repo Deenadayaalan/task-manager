@@ -1,0 +1,38 @@
+{
+  "fileName": "task-list.controller.ts",
+  "componentName": "TaskListController",
+  "selector": "TaskListController",
+  "inputs": [],
+  "outputs": [],
+  "dependencies": [
+    { "name": "taskService", "type": "TaskService", "injectionToken": "TaskService" }
+  ],
+  "lifecycleHooks": ["constructor"],
+  "methods": [
+    {
+      "name": "getInitials",
+      "parameters": [{ "name": "name", "type": "string | null" }],
+      "returnType": "string",
+      "isPublic": true
+    },
+    {
+      "name": "applyFilter",
+      "parameters": [],
+      "returnType": "void",
+      "isPublic": true
+    },
+    {
+      "name": "deleteTask",
+      "parameters": [{ "name": "id", "type": "number" }],
+      "returnType": "void",
+      "isPublic": true
+    }
+  ],
+  "properties": [
+    { "name": "tasks", "type": "Task[]", "defaultValue": "[]", "isPublic": true },
+    { "name": "filter", "type": "TaskFilter", "defaultValue": "{ status: '', priority: '' }", "isPublic": true }
+  ],
+  "constructorLogic": "Calls this.applyFilter() which builds params from filter state, fetches tasks via TaskService.getAll(params). Filter logic: if status is set send status param, else if priority is set send priority param (mutually exclusive).",
+  "imports": ["Task", "TaskFilter", "TaskService"],
+  "$inject": ["TaskService"]
+}

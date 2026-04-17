@@ -1,0 +1,34 @@
+{
+  "componentName": "DashboardController",
+  "component": { "$ref": "../components/dashboard.component.ast.json" },
+  "template": { "$ref": "../templates/dashboard.template.ast.json" },
+  "styles": { "$ref": "../styles/global.styles.ast.json" },
+  "bindings": {
+    "propertyToTemplate": [
+      { "property": "stats.total", "templateUsage": ["interpolation", "div.stat-value (stat-total)"] },
+      { "property": "stats.todo", "templateUsage": ["interpolation", "div.stat-value (stat-todo)"] },
+      { "property": "stats.inProgress", "templateUsage": ["interpolation", "div.stat-value (stat-progress)"] },
+      { "property": "stats.done", "templateUsage": ["interpolation", "div.stat-value (stat-done)"] },
+      { "property": "recentTasks", "templateUsage": ["ngRepeat", "tr in tbody"], "condition": ["ngIf", "recentTasks.length > 0"] }
+    ],
+    "methodToTemplate": [
+      { "method": "getInitials", "templateUsage": ["interpolation", "span.avatar in task row"] }
+    ],
+    "classToStyle": [
+      { "class": "topbar", "styleRules": [".topbar", ".topbar-title", ".topbar-actions"] },
+      { "class": "page-content", "styleRules": [".page-content"] },
+      { "class": "stats-row", "styleRules": [".stats-row"] },
+      { "class": "stat-card", "styleRules": [".stat-card", ".stat-card::before", ".stat-value", ".stat-label"] },
+      { "class": "card", "styleRules": [".card", ".card-header", ".card-title"] },
+      { "class": "task-table", "styleRules": [".task-table", ".task-table th", ".task-table td", ".task-key", ".task-link"] },
+      { "class": "empty-state", "styleRules": [".empty-state", ".empty-state-icon", ".empty-state-text"] },
+      { "class": "tech-stack", "styleRules": [".tech-stack", ".tech-tier-label", ".tech-chips", ".tech-chip", ".tech-chip-dot", ".tech-endpoints", ".tech-endpoints code"] },
+      { "class": "badge", "styleRules": [".badge", ".badge-todo", ".badge-in_progress", ".badge-done", ".badge-high", ".badge-medium", ".badge-low"] },
+      { "class": "priority-icon", "styleRules": [".priority-icon", ".priority-high::before", ".priority-medium::before", ".priority-low::before"] },
+      { "class": "avatar", "styleRules": [".avatar"] },
+      { "class": "btn", "styleRules": [".btn", ".btn-primary", ".btn-subtle", ".btn-sm"] }
+    ]
+  },
+  "dependencies": ["TaskService"],
+  "childComponents": []
+}

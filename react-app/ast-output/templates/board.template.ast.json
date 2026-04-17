@@ -1,0 +1,117 @@
+{
+  "fileName": "board.html",
+  "rootElements": [
+    {
+      "tagName": "div",
+      "attributes": { "class": "topbar" },
+      "children": [
+        { "tagName": "div", "attributes": { "class": "topbar-title" }, "textContent": "Board" },
+        {
+          "tagName": "div",
+          "attributes": { "class": "topbar-actions" },
+          "children": [
+            { "tagName": "a", "attributes": { "href": "#!/tasks/new", "class": "btn btn-primary" }, "textContent": "+ Create Task" }
+          ]
+        }
+      ]
+    },
+    {
+      "tagName": "div",
+      "attributes": { "class": "page-content" },
+      "children": [
+        {
+          "tagName": "div",
+          "attributes": { "class": "board" },
+          "children": [
+            {
+              "tagName": "div",
+              "attributes": { "class": "board-column" },
+              "description": "TO DO Column",
+              "children": [
+                {
+                  "tagName": "div",
+                  "attributes": { "class": "board-column-header" },
+                  "children": [
+                    { "tagName": "span", "textContent": "To Do" },
+                    { "tagName": "span", "attributes": { "class": "board-column-count" }, "interpolation": "{{$ctrl.todoTasks.length}}" }
+                  ]
+                },
+                {
+                  "tagName": "div",
+                  "attributes": { "class": "board-card" },
+                  "directives": { "ngRepeat": "task in $ctrl.todoTasks", "ngClick": "$ctrl.openTask(task.id)" },
+                  "children": [
+                    { "tagName": "a", "attributes": { "class": "board-card-title", "href": "#!/tasks/{{task.id}}" }, "interpolation": "{{task.title}}" },
+                    {
+                      "tagName": "div",
+                      "attributes": { "class": "board-card-footer" },
+                      "children": [
+                        {
+                          "tagName": "div",
+                          "attributes": { "class": "board-card-meta" },
+                          "children": [
+                            { "tagName": "span", "attributes": { "class": "badge badge-{{task.priority | lowercase}}" }, "interpolation": "{{task.priority}}" }
+                          ]
+                        },
+                        { "tagName": "span", "attributes": { "class": "avatar" }, "directives": { "ngIf": "task.assignee" }, "interpolation": "{{$ctrl.getInitials(task.assignee)}}" }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tagName": "div",
+              "attributes": { "class": "board-column" },
+              "description": "IN PROGRESS Column",
+              "children": [
+                {
+                  "tagName": "div",
+                  "attributes": { "class": "board-column-header" },
+                  "children": [
+                    { "tagName": "span", "textContent": "In Progress" },
+                    { "tagName": "span", "attributes": { "class": "board-column-count" }, "interpolation": "{{$ctrl.inProgressTasks.length}}" }
+                  ]
+                },
+                {
+                  "tagName": "div",
+                  "attributes": { "class": "board-card" },
+                  "directives": { "ngRepeat": "task in $ctrl.inProgressTasks", "ngClick": "$ctrl.openTask(task.id)" }
+                }
+              ]
+            },
+            {
+              "tagName": "div",
+              "attributes": { "class": "board-column" },
+              "description": "DONE Column",
+              "children": [
+                {
+                  "tagName": "div",
+                  "attributes": { "class": "board-column-header" },
+                  "children": [
+                    { "tagName": "span", "textContent": "Done" },
+                    { "tagName": "span", "attributes": { "class": "board-column-count" }, "interpolation": "{{$ctrl.doneTasks.length}}" }
+                  ]
+                },
+                {
+                  "tagName": "div",
+                  "attributes": { "class": "board-card" },
+                  "directives": { "ngRepeat": "task in $ctrl.doneTasks", "ngClick": "$ctrl.openTask(task.id)" }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "interpolations": [
+    { "expression": "$ctrl.todoTasks.length", "location": "board-column-count (To Do)" },
+    { "expression": "$ctrl.inProgressTasks.length", "location": "board-column-count (In Progress)" },
+    { "expression": "$ctrl.doneTasks.length", "location": "board-column-count (Done)" },
+    { "expression": "task.title", "location": "a.board-card-title" },
+    { "expression": "task.priority", "location": "span.badge" },
+    { "expression": "$ctrl.getInitials(task.assignee)", "location": "span.avatar" }
+  ],
+  "templateRefs": []
+}

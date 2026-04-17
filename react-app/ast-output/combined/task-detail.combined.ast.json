@@ -1,0 +1,42 @@
+{
+  "componentName": "TaskDetailController",
+  "component": { "$ref": "../components/task-detail.component.ast.json" },
+  "template": { "$ref": "../templates/task-detail.template.ast.json" },
+  "styles": { "$ref": "../styles/global.styles.ast.json" },
+  "bindings": {
+    "propertyToTemplate": [
+      { "property": "task", "templateUsage": ["ngIf", "main content div", "topbar-actions"] },
+      { "property": "task.id", "templateUsage": ["interpolation", "topbar-title (TF-prefix)", "detail-key"] },
+      { "property": "task.title", "templateUsage": ["interpolation", "detail-title"] },
+      { "property": "task.description", "templateUsage": ["ngIf", "detail-description or no-desc italic"] },
+      { "property": "task.status", "templateUsage": ["ngClass", "status-btn.active"] },
+      { "property": "task.priority", "templateUsage": ["interpolation", "priority-icon"] },
+      { "property": "task.assignee", "templateUsage": ["interpolation", "avatar + name or 'Unassigned'"] },
+      { "property": "task.dueDate", "templateUsage": ["interpolation", "date formatted or 'No due date'"] },
+      { "property": "task.createdAt", "templateUsage": ["interpolation", "date:'medium'"] },
+      { "property": "task.updatedAt", "templateUsage": ["interpolation", "date:'medium'"] },
+      { "property": "error", "templateUsage": ["ngIf", "div.alert.alert-error"] }
+    ],
+    "methodToTemplate": [
+      { "method": "setStatus", "templateUsage": ["ngClick", "button.status-btn (3 buttons)"] },
+      { "method": "deleteTask", "templateUsage": ["ngClick", "button.btn-danger"] },
+      { "method": "getInitials", "templateUsage": ["interpolation", "span.avatar"] }
+    ],
+    "classToStyle": [
+      { "class": "topbar", "styleRules": [".topbar", ".topbar-title", ".topbar-actions"] },
+      { "class": "alert", "styleRules": [".alert", ".alert-error"] },
+      { "class": "detail-header", "styleRules": [".detail-header", ".detail-key", ".detail-title"] },
+      { "class": "card", "styleRules": [".card"] },
+      { "class": "detail-section", "styleRules": [".detail-section", ".detail-section-title"] },
+      { "class": "detail-description", "styleRules": [".detail-description"] },
+      { "class": "detail-field", "styleRules": [".detail-field label", ".detail-field p"] },
+      { "class": "status-buttons", "styleRules": [".status-buttons"] },
+      { "class": "status-btn", "styleRules": [".status-btn", ".status-btn:hover", ".status-btn.active"] },
+      { "class": "priority-icon", "styleRules": [".priority-icon"] },
+      { "class": "avatar", "styleRules": [".avatar"] },
+      { "class": "btn", "styleRules": [".btn", ".btn-subtle", ".btn-danger"] }
+    ]
+  },
+  "dependencies": ["TaskService", "$routeParams", "$location"],
+  "childComponents": []
+}

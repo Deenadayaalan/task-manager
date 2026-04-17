@@ -1,0 +1,32 @@
+{
+  "fileName": "dashboard.controller.ts",
+  "componentName": "DashboardController",
+  "selector": "DashboardController",
+  "inputs": [],
+  "outputs": [],
+  "dependencies": [
+    { "name": "taskService", "type": "TaskService", "injectionToken": "TaskService" }
+  ],
+  "lifecycleHooks": ["constructor"],
+  "methods": [
+    {
+      "name": "getInitials",
+      "parameters": [{ "name": "name", "type": "string | null" }],
+      "returnType": "string",
+      "isPublic": true
+    },
+    {
+      "name": "loadDashboard",
+      "parameters": [],
+      "returnType": "void",
+      "isPublic": false
+    }
+  ],
+  "properties": [
+    { "name": "stats", "type": "DashboardStats", "defaultValue": "{ total: 0, todo: 0, inProgress: 0, done: 0 }", "isPublic": true },
+    { "name": "recentTasks", "type": "Task[]", "defaultValue": "[]", "isPublic": true }
+  ],
+  "constructorLogic": "Calls this.loadDashboard() which fetches all tasks via TaskService.getAll(), computes stats (total, todo, inProgress, done counts), and sets recentTasks to last 5 tasks reversed.",
+  "imports": ["angular", "Task", "DashboardStats", "TaskService"],
+  "$inject": ["TaskService"]
+}

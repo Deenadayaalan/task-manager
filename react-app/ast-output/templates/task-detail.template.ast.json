@@ -1,0 +1,123 @@
+{
+  "fileName": "task-detail.html",
+  "rootElements": [
+    {
+      "tagName": "div",
+      "attributes": { "class": "topbar" },
+      "children": [
+        { "tagName": "div", "attributes": { "class": "topbar-title" }, "interpolation": "TF-{{$ctrl.task.id}}" },
+        {
+          "tagName": "div",
+          "attributes": { "class": "topbar-actions" },
+          "directives": { "ngIf": "$ctrl.task" },
+          "children": [
+            { "tagName": "a", "attributes": { "href": "#!/tasks/{{$ctrl.task.id}}/edit", "class": "btn btn-subtle" }, "textContent": "Edit" },
+            { "tagName": "button", "attributes": { "class": "btn btn-danger" }, "bindings": { "event": [{ "name": "ng-click", "handler": "$ctrl.deleteTask()" }] }, "textContent": "Delete" }
+          ]
+        }
+      ]
+    },
+    {
+      "tagName": "div",
+      "attributes": { "class": "page-content" },
+      "children": [
+        {
+          "tagName": "div",
+          "attributes": { "class": "alert alert-error" },
+          "directives": { "ngIf": "$ctrl.error" },
+          "interpolation": "{{$ctrl.error}}"
+        },
+        {
+          "tagName": "div",
+          "directives": { "ngIf": "$ctrl.task" },
+          "children": [
+            {
+              "tagName": "div",
+              "attributes": { "class": "detail-header" },
+              "children": [
+                { "tagName": "div", "attributes": { "class": "detail-key" }, "interpolation": "TF-{{$ctrl.task.id}}" },
+                { "tagName": "div", "attributes": { "class": "detail-title" }, "interpolation": "{{$ctrl.task.title}}" }
+              ]
+            },
+            {
+              "tagName": "div",
+              "style": "display:grid; grid-template-columns: 2fr 1fr; gap: 24px;",
+              "description": "Grid layout with 2 columns",
+              "children": [
+                {
+                  "tagName": "div",
+                  "description": "Left column - Description",
+                  "children": [
+                    {
+                      "tagName": "div",
+                      "attributes": { "class": "card" },
+                      "children": [
+                        {
+                          "tagName": "div",
+                          "attributes": { "class": "detail-section" },
+                          "children": [
+                            { "tagName": "div", "attributes": { "class": "detail-section-title" }, "textContent": "Description" },
+                            { "tagName": "div", "attributes": { "class": "detail-description" }, "directives": { "ngIf": "$ctrl.task.description" }, "interpolation": "{{$ctrl.task.description}}" },
+                            { "tagName": "div", "directives": { "ngIf": "!$ctrl.task.description" }, "style": "color:var(--color-text-subtle); font-style:italic;", "textContent": "No description provided." }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "tagName": "div",
+                  "description": "Right column - Details sidebar",
+                  "children": [
+                    {
+                      "tagName": "div",
+                      "attributes": { "class": "card" },
+                      "children": [
+                        {
+                          "tagName": "div",
+                          "attributes": { "class": "detail-section" },
+                          "description": "Status section with 3 status-btn buttons",
+                          "children": [
+                            { "tagName": "div", "attributes": { "class": "detail-section-title" }, "textContent": "Status" },
+                            {
+                              "tagName": "div",
+                              "attributes": { "class": "status-buttons" },
+                              "children": [
+                                { "tagName": "button", "attributes": { "class": "status-btn" }, "directives": { "ngClass": "{'active': $ctrl.task.status === 'TODO'}" }, "bindings": { "event": [{ "name": "ng-click", "handler": "$ctrl.setStatus('TODO')" }] }, "textContent": "To Do" },
+                                { "tagName": "button", "attributes": { "class": "status-btn" }, "directives": { "ngClass": "{'active': $ctrl.task.status === 'IN_PROGRESS'}" }, "bindings": { "event": [{ "name": "ng-click", "handler": "$ctrl.setStatus('IN_PROGRESS')" }] }, "textContent": "In Progress" },
+                                { "tagName": "button", "attributes": { "class": "status-btn" }, "directives": { "ngClass": "{'active': $ctrl.task.status === 'DONE'}" }, "bindings": { "event": [{ "name": "ng-click", "handler": "$ctrl.setStatus('DONE')" }] }, "textContent": "Done" }
+                              ]
+                            }
+                          ]
+                        },
+                        { "description": "Priority section with priority-icon" },
+                        { "description": "Assignee section with avatar + name or 'Unassigned'" },
+                        { "description": "Due Date section formatted with mediumDate or 'No due date'" },
+                        { "description": "Created section formatted with medium" },
+                        { "description": "Updated section formatted with medium" }
+                      ]
+                    },
+                    { "tagName": "a", "attributes": { "href": "#!/board", "class": "btn btn-subtle" }, "style": "margin-top:8px;", "textContent": "← Back to Board" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "interpolations": [
+    { "expression": "$ctrl.task.id", "location": "topbar-title and detail-key (TF-prefix)" },
+    { "expression": "$ctrl.task.title", "location": "div.detail-title" },
+    { "expression": "$ctrl.error", "location": "div.alert.alert-error" },
+    { "expression": "$ctrl.task.description", "location": "div.detail-description" },
+    { "expression": "$ctrl.task.priority", "location": "span.priority-icon" },
+    { "expression": "$ctrl.getInitials($ctrl.task.assignee)", "location": "span.avatar" },
+    { "expression": "$ctrl.task.assignee || 'Unassigned'", "location": "assignee text" },
+    { "expression": "$ctrl.task.dueDate | date:'mediumDate'", "location": "due date text" },
+    { "expression": "$ctrl.task.createdAt | date:'medium'", "location": "created text" },
+    { "expression": "$ctrl.task.updatedAt | date:'medium'", "location": "updated text" }
+  ],
+  "templateRefs": []
+}

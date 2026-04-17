@@ -1,0 +1,176 @@
+{
+  "fileName": "dashboard.html",
+  "rootElements": [
+    {
+      "tagName": "div",
+      "attributes": { "class": "topbar" },
+      "bindings": { "property": [], "event": [] },
+      "directives": {},
+      "children": [
+        {
+          "tagName": "div",
+          "attributes": { "class": "topbar-title" },
+          "textContent": "Dashboard",
+          "children": []
+        },
+        {
+          "tagName": "div",
+          "attributes": { "class": "topbar-actions" },
+          "children": [
+            {
+              "tagName": "a",
+              "attributes": { "href": "#!/tasks/new", "class": "btn btn-primary" },
+              "textContent": "+ Create Task",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tagName": "div",
+      "attributes": { "class": "page-content" },
+      "children": [
+        {
+          "tagName": "div",
+          "attributes": { "class": "stats-row" },
+          "children": [
+            {
+              "tagName": "div",
+              "attributes": { "class": "stat-card stat-total" },
+              "children": [
+                { "tagName": "div", "attributes": { "class": "stat-value" }, "interpolation": "{{$ctrl.stats.total}}" },
+                { "tagName": "div", "attributes": { "class": "stat-label" }, "textContent": "Total Tasks" }
+              ]
+            },
+            {
+              "tagName": "div",
+              "attributes": { "class": "stat-card stat-todo" },
+              "children": [
+                { "tagName": "div", "attributes": { "class": "stat-value" }, "interpolation": "{{$ctrl.stats.todo}}" },
+                { "tagName": "div", "attributes": { "class": "stat-label" }, "textContent": "To Do" }
+              ]
+            },
+            {
+              "tagName": "div",
+              "attributes": { "class": "stat-card stat-progress" },
+              "children": [
+                { "tagName": "div", "attributes": { "class": "stat-value" }, "interpolation": "{{$ctrl.stats.inProgress}}" },
+                { "tagName": "div", "attributes": { "class": "stat-label" }, "textContent": "In Progress" }
+              ]
+            },
+            {
+              "tagName": "div",
+              "attributes": { "class": "stat-card stat-done" },
+              "children": [
+                { "tagName": "div", "attributes": { "class": "stat-value" }, "interpolation": "{{$ctrl.stats.done}}" },
+                { "tagName": "div", "attributes": { "class": "stat-label" }, "textContent": "Done" }
+              ]
+            }
+          ]
+        },
+        {
+          "tagName": "div",
+          "attributes": { "class": "card" },
+          "children": [
+            {
+              "tagName": "div",
+              "attributes": { "class": "card-header" },
+              "children": [
+                { "tagName": "div", "attributes": { "class": "card-title" }, "textContent": "Recent Activity" },
+                { "tagName": "a", "attributes": { "href": "#!/tasks", "class": "btn btn-subtle btn-sm" }, "textContent": "View All" }
+              ]
+            },
+            {
+              "tagName": "div",
+              "attributes": { "class": "empty-state" },
+              "directives": { "ngIf": "$ctrl.recentTasks.length === 0" },
+              "children": [
+                { "tagName": "div", "attributes": { "class": "empty-state-icon" }, "textContent": "📋" },
+                { "tagName": "div", "attributes": { "class": "empty-state-text" }, "textContent": "No tasks yet" },
+                { "tagName": "a", "attributes": { "href": "#!/tasks/new", "class": "btn btn-primary" }, "textContent": "Create your first task" }
+              ]
+            },
+            {
+              "tagName": "table",
+              "attributes": { "class": "task-table" },
+              "directives": { "ngIf": "$ctrl.recentTasks.length > 0" },
+              "children": [
+                {
+                  "tagName": "thead",
+                  "children": [
+                    {
+                      "tagName": "tr",
+                      "children": [
+                        { "tagName": "th", "textContent": "Key" },
+                        { "tagName": "th", "textContent": "Summary" },
+                        { "tagName": "th", "textContent": "Status" },
+                        { "tagName": "th", "textContent": "Priority" },
+                        { "tagName": "th", "textContent": "Assignee" }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "tagName": "tbody",
+                  "children": [
+                    {
+                      "tagName": "tr",
+                      "directives": { "ngRepeat": "task in $ctrl.recentTasks" },
+                      "children": [
+                        { "tagName": "td", "attributes": { "class": "task-key" }, "interpolation": "TF-{{task.id}}" },
+                        {
+                          "tagName": "td",
+                          "children": [
+                            { "tagName": "a", "attributes": { "class": "task-link", "href": "#!/tasks/{{task.id}}" }, "interpolation": "{{task.title}}" }
+                          ]
+                        },
+                        {
+                          "tagName": "td",
+                          "children": [
+                            { "tagName": "span", "attributes": { "class": "badge badge-{{task.status | lowercase}}" }, "interpolation": "{{task.status | taskStatusLabel}}" }
+                          ]
+                        },
+                        {
+                          "tagName": "td",
+                          "children": [
+                            { "tagName": "span", "attributes": { "class": "priority-icon priority-{{task.priority | lowercase}}" }, "interpolation": "{{task.priority}}" }
+                          ]
+                        },
+                        {
+                          "tagName": "td",
+                          "children": [
+                            { "tagName": "span", "attributes": { "class": "avatar" }, "directives": { "ngIf": "task.assignee" }, "interpolation": "{{$ctrl.getInitials(task.assignee)}}" },
+                            { "tagName": "span", "directives": { "ngIf": "!task.assignee" }, "style": "color:var(--color-text-subtle)", "textContent": "Unassigned" }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "tagName": "div",
+          "attributes": { "class": "card" },
+          "style": "margin-top:8px;",
+          "description": "Technology Stack card with 4 tech tiers: Frontend, Backend, Infrastructure, API Endpoints"
+        }
+      ]
+    }
+  ],
+  "interpolations": [
+    { "expression": "$ctrl.stats.total", "location": "div.stat-card.stat-total > div.stat-value" },
+    { "expression": "$ctrl.stats.todo", "location": "div.stat-card.stat-todo > div.stat-value" },
+    { "expression": "$ctrl.stats.inProgress", "location": "div.stat-card.stat-progress > div.stat-value" },
+    { "expression": "$ctrl.stats.done", "location": "div.stat-card.stat-done > div.stat-value" },
+    { "expression": "task.id", "location": "td.task-key (prefixed with 'TF-')" },
+    { "expression": "task.title", "location": "a.task-link" },
+    { "expression": "task.status | taskStatusLabel", "location": "span.badge" },
+    { "expression": "task.priority", "location": "span.priority-icon" },
+    { "expression": "$ctrl.getInitials(task.assignee)", "location": "span.avatar" }
+  ],
+  "templateRefs": []
+}

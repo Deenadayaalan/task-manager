@@ -1,0 +1,47 @@
+{
+  "fileName": "task-detail.controller.ts",
+  "componentName": "TaskDetailController",
+  "selector": "TaskDetailController",
+  "inputs": [],
+  "outputs": [],
+  "dependencies": [
+    { "name": "$routeParams", "type": "angular.route.IRouteParamsService", "injectionToken": "$routeParams" },
+    { "name": "$location", "type": "angular.ILocationService", "injectionToken": "$location" },
+    { "name": "taskService", "type": "TaskService", "injectionToken": "TaskService" }
+  ],
+  "lifecycleHooks": ["constructor"],
+  "methods": [
+    {
+      "name": "loadTask",
+      "parameters": [],
+      "returnType": "void",
+      "isPublic": false
+    },
+    {
+      "name": "getInitials",
+      "parameters": [{ "name": "name", "type": "string | null" }],
+      "returnType": "string",
+      "isPublic": true
+    },
+    {
+      "name": "setStatus",
+      "parameters": [{ "name": "status", "type": "string" }],
+      "returnType": "void",
+      "isPublic": true
+    },
+    {
+      "name": "deleteTask",
+      "parameters": [],
+      "returnType": "void",
+      "isPublic": true
+    }
+  ],
+  "properties": [
+    { "name": "task", "type": "Task | null", "defaultValue": "null", "isPublic": true },
+    { "name": "error", "type": "string", "defaultValue": "''", "isPublic": true },
+    { "name": "taskId", "type": "number", "defaultValue": "parseInt($routeParams['id'], 10)", "isPublic": false }
+  ],
+  "constructorLogic": "Parses taskId from $routeParams. Calls loadTask() which fetches task via TaskService.getById(taskId). On success sets task, on error sets error to 'Task not found'. setStatus calls TaskService.updateStatus and updates task. deleteTask shows confirm dialog, calls TaskService.remove, navigates to /tasks.",
+  "imports": ["angular", "Task", "TaskService"],
+  "$inject": ["$routeParams", "$location", "TaskService"]
+}
