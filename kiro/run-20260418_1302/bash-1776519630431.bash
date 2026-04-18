@@ -1,0 +1,1 @@
+kiro file create --path="scripts/execute-final-cutover.sh"
