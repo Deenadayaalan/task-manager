@@ -1,0 +1,1 @@
+kiro generate test TaskForm --framework react --type component
