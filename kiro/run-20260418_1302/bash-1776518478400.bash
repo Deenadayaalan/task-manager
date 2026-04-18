@@ -1,0 +1,1 @@
+kiro generate component TaskList --framework react --typescript

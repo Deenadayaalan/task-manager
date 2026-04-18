@@ -1,0 +1,54 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - echo Installing dependencies...
+      - npm ci
+
+  pre_build:
+    commands:
+      - echo Running security audit...
+      - npm audit --audit-level moderate
+      - echo Running linting...
+      - npm run lint
+
+  build:
+    commands:
+      - echo Running unit tests...
+      - npm run test:ci
+      - echo Running integration tests...
+      - npm run test:integration
+      - echo Running e2e tests...
+      - npm run test:e2e:ci
+
+  post_build:
+    commands:
+      - echo Generating test reports...
+      - npm run test:coverage
+      - echo Tests completed on `date`
+
+artifacts:
+  files:
+    - coverage/**/*
+    - test-results/**/*
+
+reports:
+  jest_unit_tests:
+    files:
+      - test-results/jest/junit.xml
+    file-format: JUNITXML
+  jest_coverage:
+    files:
+      - coverage/lcov.info
+    file-format: LCOVONLY
+  eslint_report:
+    files:
+      - test-results/eslint/eslint-report.json
+    file-format: ESLINTJSON
+
+cache:
+  paths:
+    - node_modules/**/*

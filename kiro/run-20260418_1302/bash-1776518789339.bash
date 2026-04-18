@@ -1,0 +1,1 @@
+kiro-cli file create --path ".env.monitoring"

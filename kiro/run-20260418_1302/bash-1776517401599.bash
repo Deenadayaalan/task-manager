@@ -1,0 +1,1 @@
+kiro-cli file create infrastructure/variables.tf

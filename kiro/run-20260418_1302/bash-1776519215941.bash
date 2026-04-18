@@ -1,0 +1,1 @@
+kiro create styles --name board --path src/components/board

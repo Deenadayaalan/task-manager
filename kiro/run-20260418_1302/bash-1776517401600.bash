@@ -1,0 +1,1 @@
+kiro-cli task complete --id=1 --status=success --message="AWS Infrastructure Foundation successfully set up with Terraform. VPC, security groups, IAM roles, and backend configuration completed. Ready for application deployment."

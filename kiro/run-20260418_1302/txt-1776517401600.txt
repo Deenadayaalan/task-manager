@@ -1,0 +1,41 @@
+## Environment Configuration
+
+Each environment has its own configuration file:
+
+- `environments/dev.tfvars` - Development environment
+- `environments/staging.tfvars` - Staging environment  
+- `environments/prod.tfvars` - Production environment
+
+## Modules
+
+- `modules/vpc/` - VPC, subnets, and networking
+- `modules/security/` - Security groups, WAF, and IAM
+- `modules/compute/` - ECS clusters and services
+- `modules/storage/` - S3 buckets and RDS databases
+- `modules/monitoring/` - CloudWatch and alerting
+
+## Security Considerations
+
+- All resources are tagged for cost tracking and management
+- Security groups follow least privilege principle
+- WAF protects against common web attacks
+- S3 buckets have encryption and public access blocked
+- RDS databases are in private subnets
+
+## Cost Optimization
+
+- NAT Gateways are deployed per AZ for high availability
+- ECS Fargate for serverless container management
+- S3 lifecycle policies for cost optimization
+- CloudWatch log retention policies
+
+## Troubleshooting
+
+1. **Backend Setup Issues**: Ensure AWS credentials have sufficient permissions
+2. **Plan Failures**: Check variable values in tfvars files
+3. **Apply Failures**: Review Terraform state and AWS console
+
+## Support
+
+For issues and questions, please refer to the main project repository:
+https://github.com/Deenadayaalan/task-manager

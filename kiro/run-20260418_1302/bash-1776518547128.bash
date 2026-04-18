@@ -1,0 +1,1 @@
+kiro generate test TaskForm --type react --coverage

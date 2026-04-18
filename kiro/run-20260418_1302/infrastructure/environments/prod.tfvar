@@ -1,0 +1,9 @@
+# infrastructure/environments/prod.tfvars
+environment = "prod"
+aws_region  = "us-east-1"
+vpc_cidr    = "10.2.0.0/16"
+
+domain_name = "taskmanager.example.com"
+
+enable_monitoring      = true
+backup_retention_days = 30

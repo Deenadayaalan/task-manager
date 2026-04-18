@@ -1,0 +1,1 @@
+kiro-cli file create --path "docs/CICD_PIPELINE.md"

@@ -1,0 +1,1 @@
+kiro generate test --component=TaskDetail --type=unit

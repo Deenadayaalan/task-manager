@@ -1,0 +1,1 @@
+kiro-cli task start --id=1 --name="Setup AWS Infrastructure Foundation"

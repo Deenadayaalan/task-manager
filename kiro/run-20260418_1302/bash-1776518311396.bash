@@ -1,0 +1,1 @@
+kiro file create src/components/auth/SignUpForm.jsx

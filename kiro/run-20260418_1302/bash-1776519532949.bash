@@ -1,0 +1,1 @@
+kiro file create infrastructure/auto-scaling.yml
