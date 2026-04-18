@@ -1,0 +1,61 @@
+{
+  "pipeline": {
+    "name": "task-manager-pipeline",
+    "description": "CI/CD Pipeline for Task Manager React Application",
+    "stages": {
+      "source": {
+        "provider": "GitHub",
+        "configuration": {
+          "owner": "Deenadayaalan",
+          "repo": "task-manager",
+          "branch": "main"
+        }
+      },
+      "test": {
+        "provider": "CodeBuild",
+        "configuration": {
+          "projectName": "task-manager-test",
+          "buildspec": "buildspec-test.yml"
+        }
+      },
+      "build": {
+        "provider": "CodeBuild",
+        "configuration": {
+          "projectName": "task-manager-build",
+          "buildspec": "buildspec.yml"
+        }
+      },
+      "deploy": {
+        "provider": "S3",
+        "configuration": {
+          "bucketName": "${websiteBucket}",
+          "distribution": "${distributionId}"
+        }
+      }
+    }
+  },
+  "notifications": {
+    "slack": {
+      "webhook": "${SLACK_WEBHOOK_URL}",
+      "channels": ["#deployments", "#alerts"]
+    },
+    "email": {
+      "recipients": ["devops@company.com"]
+    }
+  },
+  "environments": {
+    "development": {
+      "branch": "develop",
+      "autoApprove": true
+    },
+    "staging": {
+      "branch": "staging",
+      "autoApprove": true
+    },
+    "production": {
+      "branch": "main",
+      "autoApprove": false,
+      "approvers": ["devops-team"]
+    }
+  }
+}
