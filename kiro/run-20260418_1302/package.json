@@ -1,0 +1,11 @@
+// package.json (additions)
+{
+  "dependencies": {
+    "@tanstack/react-query": "^4.29.0",
+    "axios": "^1.4.0",
+    "react-use": "^17.4.0"
+  },
+  "devDependencies": {
+    "@testing-library/react-hooks": "^8.0.1"
+  }
+}
