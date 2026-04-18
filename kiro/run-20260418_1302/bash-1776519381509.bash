@@ -1,0 +1,1 @@
+kiro generate component --name ReportBuilder --path src/components/analytics
