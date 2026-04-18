@@ -1,0 +1,1 @@
+kiro-cli update file --path "package.json"
