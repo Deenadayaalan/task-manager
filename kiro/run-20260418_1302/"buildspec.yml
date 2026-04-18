@@ -1,0 +1,51 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - echo Installing dependencies...
+      - npm ci
+
+  pre_build:
+    commands:
+      - echo Running linting...
+      - npm run lint
+      - echo Running tests...
+      - npm run test:ci
+      - echo Running security audit...
+      - npm audit --audit-level moderate
+
+  build:
+    commands:
+      - echo Building React application...
+      - npm run build
+      - echo Build completed on `date`
+
+  post_build:
+    commands:
+      - echo Deploying to S3...
+      - aws s3 sync build/ s3://$WEBSITE_BUCKET_NAME --delete
+      - echo Creating CloudFront invalidation...
+      - aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths "/*"
+      - echo Deployment completed on `date`
+
+artifacts:
+  files:
+    - '**/*'
+  base-directory: build
+
+cache:
+  paths:
+    - node_modules/**/*
+
+reports:
+  jest_reports:
+    files:
+      - coverage/lcov.info
+    file-format: LCOVONLY
+  eslint_reports:
+    files:
+      - eslint-report.json
+    file-format: ESLINTJSON
