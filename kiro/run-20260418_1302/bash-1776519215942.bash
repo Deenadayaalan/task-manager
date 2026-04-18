@@ -1,0 +1,1 @@
+kiro create test --name Board.test --path src/components/board/__tests__
