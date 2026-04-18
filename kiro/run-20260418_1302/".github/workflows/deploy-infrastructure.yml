@@ -1,0 +1,73 @@
+name: Deploy Infrastructure
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'infrastructure/**'
+      - '.github/workflows/deploy-infrastructure.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'infrastructure/**'
+
+env:
+  AWS_REGION: us-east-1
+  NODE_VERSION: '18'
+
+jobs:
+  deploy-infrastructure:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: 'infrastructure/package-lock.json'
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Install CDK dependencies
+        working-directory: infrastructure
+        run: npm ci
+
+      - name: CDK Bootstrap
+        working-directory: infrastructure
+        run: npx cdk bootstrap
+
+      - name: CDK Synth
+        working-directory: infrastructure
+        run: npx cdk synth
+
+      - name: CDK Diff
+        working-directory: infrastructure
+        run: npx cdk diff
+        continue-on-error: true
+
+      - name: CDK Deploy Infrastructure
+        if: github.ref == 'refs/heads/main'
+        working-directory: infrastructure
+        run: npx cdk deploy TaskManagerInfrastructure --require-approval never
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: CDK Deploy Pipeline
+        if: github.ref == 'refs/heads/main'
+        working-directory: infrastructure
+        run: npx cdk deploy TaskManagerPipeline --require-approval never
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_OWNER: ${{ github.repository_owner }}
+          GITHUB_REPO: ${{ github.event.repository.name }}
