@@ -1,0 +1,171 @@
+# infrastructure/disaster-recovery/dr-stack.yml
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Disaster Recovery Infrastructure for Task Manager'
+
+Parameters:
+  Environment:
+    Type: String
+    Default: production
+  BackupRetentionDays:
+    Type: Number
+    Default: 30
+  CrossRegionReplication:
+    Type: String
+    Default: us-west-2
+    Description: Secondary region for disaster recovery
+
+Resources:
+  # S3 Bucket for Cross-Region Backup
+  DisasterRecoveryBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub 'task-manager-dr-${Environment}-${AWS::AccountId}'
+      VersioningConfiguration:
+        Status: Enabled
+      ReplicationConfiguration:
+        Role: !GetAtt S3ReplicationRole.Arn
+        Rules:
+          - Id: ReplicateToSecondaryRegion
+            Status: Enabled
+            Prefix: backups/
+            Destination:
+              Bucket: !Sub 'arn:aws:s3:::task-manager-dr-replica-${Environment}-${AWS::AccountId}'
+              StorageClass: STANDARD_IA
+      LifecycleConfiguration:
+        Rules:
+          - Id: TransitionToIA
+            Status: Enabled
+            Transitions:
+              - TransitionInDays: 30
+                StorageClass: STANDARD_IA
+              - TransitionInDays: 90
+                StorageClass: GLACIER
+              - TransitionInDays: 365
+                StorageClass: DEEP_ARCHIVE
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+
+  # Cross-Region Replica Bucket
+  DisasterRecoveryReplicaBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub 'task-manager-dr-replica-${Environment}-${AWS::AccountId}'
+      VersioningConfiguration:
+        Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+
+  # DynamoDB Backup Vault
+  BackupVault:
+    Type: AWS::Backup::BackupVault
+    Properties:
+      BackupVaultName: !Sub 'TaskManagerBackupVault-${Environment}'
+      EncryptionKeyArn: !Ref BackupKMSKey
+
+  # KMS Key for Backup Encryption
+  BackupKMSKey:
+    Type: AWS::KMS::Key
+    Properties:
+      Description: 'KMS Key for Task Manager Backup Encryption'
+      KeyPolicy:
+        Statement:
+          - Sid: Enable IAM User Permissions
+            Effect: Allow
+            Principal:
+              AWS: !Sub 'arn:aws:iam::${AWS::AccountId}:root'
+            Action: 'kms:*'
+            Resource: '*'
+          - Sid: Allow Backup Service
+            Effect: Allow
+            Principal:
+              Service: backup.amazonaws.com
+            Action:
+              - kms:Decrypt
+              - kms:GenerateDataKey
+            Resource: '*'
+
+  # Backup Plan
+  BackupPlan:
+    Type: AWS::Backup::BackupPlan
+    Properties:
+      BackupPlan:
+        BackupPlanName: !Sub 'TaskManagerBackupPlan-${Environment}'
+        BackupPlanRule:
+          - RuleName: DailyBackups
+            TargetBackupVault: !Ref BackupVault
+            ScheduleExpression: 'cron(0 2 * * ? *)'
+            StartWindowMinutes: 60
+            CompletionWindowMinutes: 120
+            Lifecycle:
+              DeleteAfterDays: !Ref BackupRetentionDays
+              MoveToColdStorageAfterDays: 7
+          - RuleName: WeeklyBackups
+            TargetBackupVault: !Ref BackupVault
+            ScheduleExpression: 'cron(0 3 ? * SUN *)'
+            StartWindowMinutes: 60
+            CompletionWindowMinutes: 180
+            Lifecycle:
+              DeleteAfterDays: 90
+              MoveToColdStorageAfterDays: 30
+
+  # IAM Role for S3 Replication
+  S3ReplicationRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: s3.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: S3ReplicationPolicy
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:GetObjectVersionForReplication
+                  - s3:GetObjectVersionAcl
+                Resource: !Sub '${DisasterRecoveryBucket}/*'
+              - Effect: Allow
+                Action:
+                  - s3:ListBucket
+                Resource: !Ref DisasterRecoveryBucket
+              - Effect: Allow
+                Action:
+                  - s3:ReplicateObject
+                  - s3:ReplicateDelete
+                Resource: !Sub '${DisasterRecoveryReplicaBucket}/*'
+
+  # IAM Role for Backup Service
+  BackupServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: backup.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSBackupServiceRolePolicyForBackup
+        - arn:aws:iam::aws:policy/service-role/AWSBackupServiceRolePolicyForRestores
+
+Outputs:
+  BackupVaultArn:
+    Description: 'Backup Vault ARN'
+    Value: !GetAtt BackupVault.BackupVaultArn
+    Export:
+      Name: !Sub '${AWS::StackName}-BackupVaultArn'
+  
+  DisasterRecoveryBucketName:
+    Description: 'Disaster Recovery S3 Bucket Name'
+    Value: !Ref DisasterRecoveryBucket
+    Export:
+      Name: !Sub '${AWS::StackName}-DRBucket'
