@@ -1,0 +1,55 @@
+# TaskFlow Modernisation — Tasks
+
+Source: AngularJS 1.8 + Java 8 Spring Boot → React 18 + Node.js Express
+
+- [x] 1. Set up project structure and build tooling
+  - [x] 1.1 Create React app with Vite and configure project structure
+  - [x] 1.2 Set up Express backend with project structure matching design doc
+  - [x] 1.3 Add package.json scripts for dev and build
+- [x] 2. Implement backend data model and database
+  - [x] 2.1 Create SQLite database with better-sqlite3
+  - [x] 2.2 Implement Task model matching Java entity fields
+  - [x] 2.3 Add seed data matching DataSeeder.java
+- [x] 3. Implement backend REST API endpoints
+  - [x] 3.1 Create Express routes for all CRUD operations
+  - [x] 3.2 Implement TaskService with same business logic as Java version
+- [x] 4. Create app layout and routing
+  - [x] 4.1 Implement sidebar navigation
+  - [x] 4.2 Set up React Router v6 with routes for each view
+- [x] 5. Build Dashboard view
+  - [x] 5.1 Create Dashboard component with stat cards
+  - [x] 5.2 Add overdue task count and recent tasks list
+- [x] 6. Build Kanban Board view with drag-and-drop
+  - [x] 6.1 Implement Board with three columns and TaskCards
+  - [x] 6.2 Add drag-and-drop via dnd-kit
+  - [x] 6.3 Show priority badge, assignee initials, due date on cards
+- [x] 7. Build Task List (Backlog) view
+  - [x] 7.1 Create TaskList with table layout and badges
+  - [x] 7.2 Add filter bar and quick action buttons
+- [x] 8. Build Task Form (create + edit)
+  - [x] 8.1 Create form component with all fields
+  - [x] 8.2 Add validation matching backend constraints
+- [x] 9. Build Task Detail view
+  - [x] 9.1 Create read-only task detail with all fields
+  - [x] 9.2 Add action buttons Edit Delete Change Status
+- [x] 10. Styling and responsive design
+  - [x] 10.1 Implement modern CSS with responsive sidebar
+  - [x] 10.2 Add priority color coding and status badges
+- [x] 11. Docker configuration
+  - [x] 11.1 Create multi-stage Dockerfile
+  - [x] 11.2 Create docker-compose for local dev
+- [x] 12. Integration testing and validation
+  - [x] 12.1 Verify all API endpoints
+  - [x] 12.2 Test drag-and-drop and validate seed data
+- [x] 13. Add full-text search across tasks
+  - [x] 13.1 Add backend search query param support
+  - [x] 13.2 Add search bar to TaskList view
+  - [x] 13.3 Add search bar to Board view
+- [x] 14. Add toast notification system
+  - [x] 14.1 Create NotificationContext and hook
+  - [x] 14.2 Create ToastContainer component
+  - [x] 14.3 Wire notifications into all views
+- [x] 15. Add bulk operations for tasks
+  - [x] 15.1 Add checkbox selection to TaskList
+  - [x] 15.2 Add bulk actions toolbar
+  - [x] 15.3 Add backend bulk endpoints

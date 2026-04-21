@@ -1,0 +1,6 @@
+FROM node:20-alpine
+WORKDIR /app
+COPY new-backend/package*.json ./
+RUN npm install
+COPY new-backend/ ./
+CMD ["npm", "run", "dev"]

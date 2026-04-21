@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: new-backend/Dockerfile.dev
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./new-backend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+
+  frontend:
+    build:
+      context: .
+      dockerfile: new-frontend/Dockerfile.dev
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./new-frontend:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=http://localhost:3001/api
+    depends_on:
+      - backend
