@@ -30,6 +30,7 @@ for (const key of Object.keys(require.cache)) {
 }
 
 const app = require('../server');
+await app.ready;
 const request = supertest(app);
 
 /**

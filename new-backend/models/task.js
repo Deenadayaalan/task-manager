@@ -1,15 +1,10 @@
-const db = require('../db');
+const { getDb } = require('../db');
 
 /**
  * Find all tasks, optionally filtered by status, priority, assignee, and/or search term.
- * @param {Object} [filters] - Optional filters
- * @param {string} [filters.status]
- * @param {string} [filters.priority]
- * @param {string} [filters.assignee]
- * @param {string} [filters.search] - Full-text search across title and description
- * @returns {Array} List of task objects
  */
 function findAll(filters = {}) {
+  const db = getDb();
   const conditions = [];
   const params = [];
 
@@ -42,19 +37,17 @@ function findAll(filters = {}) {
 
 /**
  * Find a single task by ID.
- * @param {number} id
- * @returns {Object|undefined} Task object or undefined if not found
  */
 function findById(id) {
+  const db = getDb();
   return db.prepare('SELECT * FROM tasks WHERE id = ?').get(id) || null;
 }
 
 /**
  * Create a new task.
- * @param {Object} data - Task fields (title required; description, status, priority, assignee, dueDate optional)
- * @returns {Object} The created task
  */
 function create(data) {
+  const db = getDb();
   const now = new Date().toISOString();
   const status = data.status || 'TODO';
   const priority = data.priority || 'MEDIUM';
@@ -80,11 +73,9 @@ function create(data) {
 
 /**
  * Partial update — only updates fields that are provided (non-undefined).
- * @param {number} id
- * @param {Object} data - Fields to update
- * @returns {Object|null} Updated task or null if not found
  */
 function update(id, data) {
+  const db = getDb();
   const existing = findById(id);
   if (!existing) return null;
 
@@ -99,7 +90,6 @@ function update(id, data) {
     }
   }
 
-  // Always update updatedAt
   setClauses.push('updatedAt = ?');
   const now = new Date().toISOString();
   params.push(now);
@@ -113,11 +103,9 @@ function update(id, data) {
 
 /**
  * Update only the status field of a task.
- * @param {number} id
- * @param {string} status - New status value
- * @returns {Object|null} Updated task or null if not found
  */
 function updateStatus(id, status) {
+  const db = getDb();
   const existing = findById(id);
   if (!existing) return null;
 
@@ -129,30 +117,27 @@ function updateStatus(id, status) {
 
 /**
  * Delete a task by ID.
- * @param {number} id
- * @returns {boolean} True if a row was deleted, false if not found
  */
 function remove(id) {
+  const db = getDb();
   const result = db.prepare('DELETE FROM tasks WHERE id = ?').run(id);
   return result.changes > 0;
 }
 
 /**
  * Return the total number of tasks.
- * @returns {number}
  */
 function count() {
+  const db = getDb();
   const row = db.prepare('SELECT COUNT(*) AS count FROM tasks').get();
   return row.count;
 }
 
 /**
  * Update status for multiple tasks at once.
- * @param {number[]} taskIds - Array of task IDs to update
- * @param {string} status - New status value
- * @returns {number} Number of rows updated
  */
 function bulkUpdateStatus(taskIds, status) {
+  const db = getDb();
   if (!taskIds || taskIds.length === 0) return 0;
   const now = new Date().toISOString();
   const placeholders = taskIds.map(() => '?').join(', ');
@@ -165,10 +150,9 @@ function bulkUpdateStatus(taskIds, status) {
 
 /**
  * Delete multiple tasks at once.
- * @param {number[]} taskIds - Array of task IDs to delete
- * @returns {number} Number of rows deleted
  */
 function bulkDelete(taskIds) {
+  const db = getDb();
   if (!taskIds || taskIds.length === 0) return 0;
   const placeholders = taskIds.map(() => '?').join(', ');
   const stmt = db.prepare(`DELETE FROM tasks WHERE id IN (${placeholders})`);

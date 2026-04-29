@@ -1,8 +1,8 @@
 ###############################################################################
-# Legacy Application — Two-Tier ECS Fargate Deployment
+# TaskFlow — Single-Container ECS Fargate Deployment
 #
-# Deploys 2 containers (frontend nginx:80, backend java:8080) behind
-# CloudFront + ALB. Frontend proxies /api to backend via localhost.
+# Deploys 1 Node.js container (Express serves API + React frontend on port
+# 3001) behind CloudFront + ALB.
 ###############################################################################
 
 terraform {
@@ -33,7 +33,7 @@ variable "aws_region" {
 variable "project_name" {
   description = "Project name prefix for all resources"
   type        = string
-  default     = "legacy-app"
+  default     = "taskflow"
 }
 
 variable "vpc_id" {
@@ -52,15 +52,15 @@ variable "private_subnet_ids" {
 }
 
 variable "app_cpu" {
-  description = "CPU units for the ECS task (1024 = 1 vCPU)"
+  description = "CPU units for the ECS task (512 = 0.5 vCPU)"
   type        = number
-  default     = 1024
+  default     = 512
 }
 
 variable "app_memory" {
   description = "Memory in MiB for the ECS task"
   type        = number
-  default     = 2048
+  default     = 1024
 }
 
 variable "desired_count" {
@@ -70,25 +70,27 @@ variable "desired_count" {
 }
 
 variable "domain_name" {
-  description = "FQDN for the app (e.g. legacy-app.xx)"
+  description = "FQDN for the app (optional, for CloudFront)"
   type        = string
+  default     = ""
 }
 
 variable "route53_zone_name" {
-  description = "Route53 hosted zone name (e.g. xx)"
+  description = "Route53 hosted zone name (optional)"
   type        = string
+  default     = ""
 }
 
 variable "cloudfront_secret" {
-  description = "Shared secret header value to restrict ALB access to CloudFront only"
+  description = "Shared secret header to restrict ALB access to CloudFront only"
   type        = string
   sensitive   = true
+  default     = "taskflow-cf-secret-2026"
 }
 
 locals {
-  name_prefix   = var.project_name
-  account_id    = data.aws_caller_identity.current.account_id
-  region        = data.aws_region.current.name
-  frontend_port = 80
-  backend_port  = 8080
+  name_prefix = var.project_name
+  account_id  = data.aws_caller_identity.current.account_id
+  region      = data.aws_region.current.name
+  app_port    = 3001
 }

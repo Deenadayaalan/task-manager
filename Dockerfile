@@ -10,11 +10,10 @@ RUN npm run build
 FROM node:20-alpine AS production
 WORKDIR /app
 COPY new-backend/package*.json ./
-RUN npm ci --production
+RUN npm ci --omit=dev
 COPY new-backend/ ./
 COPY --from=frontend-build /app/frontend/dist ./public
 
-# Serve static files from /public in production
 ENV NODE_ENV=production
 ENV PORT=3001
 EXPOSE 3001

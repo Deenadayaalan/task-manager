@@ -1,4 +1,4 @@
-const db = require('./db');
+const { getDb } = require('./db');
 
 const seedTasks = [
   {
@@ -84,6 +84,7 @@ const seedTasks = [
 ];
 
 function seed() {
+  const db = getDb();
   const row = db.prepare('SELECT COUNT(*) AS count FROM tasks').get();
   if (row.count > 0) {
     console.log('Database already seeded — skipping.');
@@ -97,24 +98,20 @@ function seed() {
     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
   `);
 
-  const insertMany = db.transaction((tasks) => {
-    for (const t of tasks) {
-      const due = new Date();
-      due.setDate(due.getDate() + t.dueDaysFromNow);
-      insert.run(
-        t.title,
-        t.description,
-        t.status,
-        t.priority,
-        t.assignee,
-        due.toISOString(),
-        now,
-        now
-      );
-    }
-  });
-
-  insertMany(seedTasks);
+  for (const t of seedTasks) {
+    const due = new Date();
+    due.setDate(due.getDate() + t.dueDaysFromNow);
+    insert.run(
+      t.title,
+      t.description,
+      t.status,
+      t.priority,
+      t.assignee,
+      due.toISOString(),
+      now,
+      now
+    );
+  }
   console.log(`Seeded ${seedTasks.length} tasks.`);
 }
 

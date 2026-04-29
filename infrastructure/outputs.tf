@@ -3,13 +3,8 @@
 ###############################################################################
 
 output "app_url" {
-  description = "Application URL"
-  value       = "https://${var.domain_name}"
-}
-
-output "alb_dns_name" {
-  description = "ALB DNS name (restricted to CloudFront only)"
-  value       = "http://${aws_lb.main.dns_name}"
+  description = "Application URL (CloudFront)"
+  value       = "https://${aws_cloudfront_distribution.main.domain_name}"
 }
 
 output "cloudfront_domain" {
@@ -17,14 +12,14 @@ output "cloudfront_domain" {
   value       = aws_cloudfront_distribution.main.domain_name
 }
 
-output "ecr_frontend_url" {
-  description = "ECR repository URL for the frontend"
-  value       = aws_ecr_repository.frontend.repository_url
+output "alb_dns_name" {
+  description = "ALB DNS name (restricted to CloudFront only)"
+  value       = aws_lb.main.dns_name
 }
 
-output "ecr_backend_url" {
-  description = "ECR repository URL for the backend"
-  value       = aws_ecr_repository.backend.repository_url
+output "ecr_app_url" {
+  description = "ECR repository URL for the app"
+  value       = aws_ecr_repository.app.repository_url
 }
 
 output "ecs_cluster_name" {

@@ -1,5 +1,5 @@
 ###############################################################################
-# Application Load Balancer
+# Application Load Balancer — restricted to CloudFront via secret header
 ###############################################################################
 
 resource "aws_lb" "main" {
@@ -16,14 +16,14 @@ resource "aws_lb" "main" {
 
 resource "aws_lb_target_group" "app" {
   name        = "${local.name_prefix}-tg"
-  port        = local.frontend_port
+  port        = local.app_port
   protocol    = "HTTP"
   vpc_id      = var.vpc_id
   target_type = "ip"
 
   health_check {
     enabled             = true
-    path                = "/"
+    path                = "/api/tasks"
     port                = "traffic-port"
     protocol            = "HTTP"
     healthy_threshold   = 2

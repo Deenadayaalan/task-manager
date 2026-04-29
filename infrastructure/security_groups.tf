@@ -28,9 +28,9 @@ resource "aws_vpc_security_group_ingress_rule" "alb_from_cloudfront" {
 
 resource "aws_vpc_security_group_egress_rule" "alb_to_ecs" {
   security_group_id            = aws_security_group.alb.id
-  description                  = "ALB to ECS frontend container"
-  from_port                    = local.frontend_port
-  to_port                      = local.frontend_port
+  description                  = "ALB to ECS app container"
+  from_port                    = local.app_port
+  to_port                      = local.app_port
   ip_protocol                  = "tcp"
   referenced_security_group_id = aws_security_group.ecs_tasks.id
 }
@@ -38,7 +38,7 @@ resource "aws_vpc_security_group_egress_rule" "alb_to_ecs" {
 # ── ECS Tasks Security Group ──
 resource "aws_security_group" "ecs_tasks" {
   name_prefix = "${local.name_prefix}-ecs-"
-  description = "ECS tasks - frontend and backend containers"
+  description = "ECS tasks - Node.js app container"
   vpc_id      = var.vpc_id
 
   tags = { Name = "${local.name_prefix}-ecs-sg" }
@@ -48,9 +48,9 @@ resource "aws_security_group" "ecs_tasks" {
 
 resource "aws_vpc_security_group_ingress_rule" "ecs_from_alb" {
   security_group_id            = aws_security_group.ecs_tasks.id
-  description                  = "Frontend port from ALB"
-  from_port                    = local.frontend_port
-  to_port                      = local.frontend_port
+  description                  = "App port from ALB"
+  from_port                    = local.app_port
+  to_port                      = local.app_port
   ip_protocol                  = "tcp"
   referenced_security_group_id = aws_security_group.alb.id
 }

@@ -53,3 +53,7 @@ Source: AngularJS 1.8 + Java 8 Spring Boot → React 18 + Node.js Express
   - [x] 15.1 Add checkbox selection to TaskList
   - [x] 15.2 Add bulk actions toolbar
   - [x] 15.3 Add backend bulk endpoints
+- [x] 16. Modernise infrastructure for single-container deployment
+  - [x] 16.1 Update ECS task definition for single Node.js container
+  - [x] 16.2 Update ECR to single repository and simplify ALB health check
+  - [x] 16.3 Update outputs and add deployment script

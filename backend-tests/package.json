@@ -1,0 +1,14 @@
+{
+  "name": "taskflow-backend-tests",
+  "private": true,
+  "version": "1.0.0",
+  "description": "API contract tests proving functional parity between Java and Node.js backends",
+  "scripts": {
+    "test:old": "BASE_URL=http://localhost:8080 vitest run",
+    "test:new": "BASE_URL=http://localhost:3001 vitest run",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "vitest": "^3.2.1"
+  }
+}

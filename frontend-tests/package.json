@@ -1,0 +1,16 @@
+{
+  "name": "taskflow-frontend-tests",
+  "private": true,
+  "version": "1.0.0",
+  "description": "E2E tests proving frontend functional parity between AngularJS and React versions",
+  "scripts": {
+    "test:old": "BASE_URL=http://localhost:4200 npx playwright test",
+    "test:new": "BASE_URL=http://localhost:5173 npx playwright test",
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
+    "report": "npx playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0"
+  }
+}

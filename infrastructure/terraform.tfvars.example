@@ -1,23 +1,17 @@
 # Copy to terraform.tfvars and fill in your values
 
 aws_region         = "us-east-1"
-project_name       = "modernisation-pathway"
+project_name       = "taskflow"
 vpc_id             = "vpc-xxxxxxxxxxxxxxxxx"
 public_subnet_ids  = ["subnet-aaaa", "subnet-bbbb"]
 private_subnet_ids = ["subnet-cccc", "subnet-dddd"]
 
 # CloudFront + Route53
-domain_name        = ""
-route53_zone_name  = ""
-cloudfront_secret  = "change-me-to-a-random-string"
-
-# Cognito (shared with other services)
-cognito_user_pool_id = ""
-cognito_client_id    = ""
-cognito_domain       = ""
-
+domain_name       = ""
+route53_zone_name = ""
+cloudfront_secret = "change-me-to-a-random-string"
 
 # Optional overrides
-# app_cpu       = 1024
-# app_memory    = 2048
+# app_cpu       = 512
+# app_memory    = 1024
 # desired_count = 1

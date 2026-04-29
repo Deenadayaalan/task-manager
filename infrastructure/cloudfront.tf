@@ -1,47 +1,11 @@
 ###############################################################################
-# ACM Certificate (must be in us-east-1 for CloudFront)
-###############################################################################
-
-resource "aws_acm_certificate" "cloudfront" {
-  domain_name       = var.domain_name
-  validation_method = "DNS"
-
-  tags = { Name = "${local.name_prefix}-cf-cert" }
-
-  lifecycle { create_before_destroy = true }
-}
-
-resource "aws_route53_record" "cert_validation" {
-  for_each = {
-    for dvo in aws_acm_certificate.cloudfront.domain_validation_options : dvo.domain_name => {
-      name   = dvo.resource_record_name
-      record = dvo.resource_record_value
-      type   = dvo.resource_record_type
-    }
-  }
-
-  zone_id = data.aws_route53_zone.main.zone_id
-  name    = each.value.name
-  type    = each.value.type
-  ttl     = 60
-  records = [each.value.record]
-
-  allow_overwrite = true
-}
-
-resource "aws_acm_certificate_validation" "cloudfront" {
-  certificate_arn         = aws_acm_certificate.cloudfront.arn
-  validation_record_fqdns = [for r in aws_route53_record.cert_validation : r.fqdn]
-}
-
-###############################################################################
-# CloudFront Distribution
+# CloudFront Distribution — uses default *.cloudfront.net domain (no custom
+# domain, no ACM cert, no Route53).
 ###############################################################################
 
 resource "aws_cloudfront_distribution" "main" {
   enabled         = true
-  comment         = "Legacy App - ${var.domain_name}"
-  aliases         = [var.domain_name]
+  comment         = "TaskFlow - ${local.name_prefix}"
   price_class     = "PriceClass_100"
   is_ipv6_enabled = true
 
@@ -89,31 +53,8 @@ resource "aws_cloudfront_distribution" "main" {
   }
 
   viewer_certificate {
-    acm_certificate_arn      = aws_acm_certificate_validation.cloudfront.certificate_arn
-    ssl_support_method       = "sni-only"
-    minimum_protocol_version = "TLSv1.2_2021"
+    cloudfront_default_certificate = true
   }
 
   tags = { Name = "${local.name_prefix}-cf" }
-}
-
-###############################################################################
-# Route53 — Alias to CloudFront
-###############################################################################
-
-data "aws_route53_zone" "main" {
-  name         = var.route53_zone_name
-  private_zone = false
-}
-
-resource "aws_route53_record" "app" {
-  zone_id = data.aws_route53_zone.main.zone_id
-  name    = var.domain_name
-  type    = "A"
-
-  alias {
-    name                   = aws_cloudfront_distribution.main.domain_name
-    zone_id                = aws_cloudfront_distribution.main.hosted_zone_id
-    evaluate_target_health = false
-  }
 }
