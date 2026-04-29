@@ -28,3 +28,17 @@ node_modules/
 
 # SQLite database
 new-backend/taskflow.db
+
+# Terraform
+infrastructure/.terraform/
+infrastructure/terraform.tfstate
+infrastructure/terraform.tfstate.backup
+infrastructure/*.tfvars
+!infrastructure/terraform.tfvars.example
+
+# Frontend build output
+new-frontend/dist/
+
+# Playwright
+frontend-tests/playwright-report/
+frontend-tests/test-results/
